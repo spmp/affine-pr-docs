@@ -1,0 +1,20 @@
+title: AFFiNE fork — PR notes
+description: What each pull request in the spmp/AFFiNE stack does, why, and how to review it.
+remote_theme: just-the-docs/just-the-docs@v0.10.1
+plugins:
+  - jekyll-remote-theme
+  - jekyll-relative-links
+url: https://spmp.github.io
+baseurl: /affine-pr-notes
+color_scheme: light
+search_enabled: true
+heading_anchors: true
+aux_links:
+  "spmp/AFFiNE on GitHub": https://github.com/spmp/AFFiNE
+  "Upstream AFFiNE": https://github.com/toeverything/AFFiNE
+# pr-text/ holds the PR descriptions to paste into GitHub; it is not part of the site.
+exclude:
+  - pr-text/
+  - README.md
+  - Gemfile
+  - Gemfile.lock
