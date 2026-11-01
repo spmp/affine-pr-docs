@@ -1,6 +1,6 @@
-# affine-pr-notes
+# affine-pr-docs
 
-Source for <https://spmp.github.io/affine-pr-notes/>: one page per pull
+Source for <https://spmp.github.io/affine-pr-docs/>: one page per pull
 request in the [spmp/AFFiNE](https://github.com/spmp/AFFiNE) PR stack.
 
 - `index.md`: the stack overview.
@@ -33,5 +33,5 @@ gh pr create --repo toeverything/AFFiNE --base canary \
 
 ```sh
 bundle install
-bundle exec jekyll serve   # http://localhost:4000/affine-pr-notes/
+bundle exec jekyll serve   # http://localhost:4000/affine-pr-docs/
 ```
