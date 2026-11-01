@@ -6,7 +6,7 @@ plugins:
   - jekyll-relative-links
 url: https://spmp.github.io
 baseurl: /affine-pr-docs
-color_scheme: light
+color_scheme: affine
 search_enabled: true
 heading_anchors: true
 aux_links:
@@ -18,3 +18,6 @@ exclude:
   - README.md
   - Gemfile
   - Gemfile.lock
+defaults:
+  - scope: { path: "" }
+    values: { layout: default }

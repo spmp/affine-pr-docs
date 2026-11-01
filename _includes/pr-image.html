@@ -1,0 +1,9 @@
+{%- comment -%} Renders PR include.id's picture, or a placeholder. {%- endcomment -%}
+{%- assign prefix = '/assets/images/pr-' | append: include.id | append: '/hero.' -%}
+{%- assign hero = site.static_files | where_exp: "f", "f.path contains prefix" | first -%}
+{%- assign pr = site.data.prs.prs[include.id] -%}
+{%- if hero -%}
+<img class="pr-img" src="{{ hero.path | relative_url }}" alt="{{ pr.title }}" loading="lazy">
+{%- else -%}
+<div class="pr-img pr-img--placeholder"><span>pr/{{ include.id }}</span>{% if pr.shot %}<small>Screenshot to come: {{ pr.shot }}</small>{% endif %}</div>
+{%- endif -%}

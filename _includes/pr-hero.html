@@ -1,0 +1,5 @@
+{%- assign pr = site.data.prs.prs[include.id] -%}
+<figure class="pr-hero">
+  {% include pr-image.html id=include.id %}
+  <figcaption>{{ pr.tagline }}</figcaption>
+</figure>

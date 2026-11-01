@@ -1,0 +1,15 @@
+{%- assign pr = site.data.prs.prs[include.id] -%}
+<a class="pr-card" href="{{ '/pr-' | append: include.id | append: '/' | relative_url }}">
+  {% include pr-image.html id=include.id %}
+  <div class="pr-card__body">
+    <div class="pr-card__id">pr/{{ include.id }}</div>
+    <div class="pr-card__title">{{ pr.title }}</div>
+    <p class="pr-card__tagline">{{ pr.tagline }}</p>
+    <div class="pr-card__meta">
+      <span class="chip">{{ pr.size }}</span>
+      {%- if pr.status %}<span class="chip chip--warn">{{ pr.status }}</span>
+      {%- elsif pr.alone %}<span class="chip chip--ok">Reviewable alone</span>
+      {%- else %}<span class="chip">Stacked</span>{% endif %}
+    </div>
+  </div>
+</a>

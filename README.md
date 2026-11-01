@@ -9,16 +9,30 @@ request in the [spmp/AFFiNE](https://github.com/spmp/AFFiNE) PR stack.
   to its page. Not published on the site.
 - `assets/images/pr-NN/`: screenshots and recordings for PR `NN`.
 
-## Adding images
+## Adding a PR's picture
 
-Put the file in `assets/images/pr-NN/` and reference it from the page:
+Each PR has one picture. It is shown on its card on the overview and at the
+top of its page.
+
+1. Save it as `assets/images/pr-NN/hero.png` (`.jpg`, `.gif` and `.webp` work
+   too; an animated GIF plays on both).
+2. Commit and push. Nothing else to edit: the placeholder is replaced
+   automatically.
+
+Tips:
+
+- Cards crop to 16:10 from the **top-left**, so put the interesting part
+  there. The page shows the whole picture.
+- About 1600 px wide is plenty.
+- The text on each placeholder ("Screenshot to come: …") says what the
+  picture should show. It comes from `shot:` in `_data/prs.yml`, which also
+  holds each card's title, one-line summary and size.
+
+More pictures can go further down a page as normal Markdown:
 
 ```markdown
-![Caption]({{ '/assets/images/pr-18/note-ref-cross-page.png' | relative_url }})
+![Caption]({{ '/assets/images/pr-18/second.png' | relative_url }})
 ```
-
-Each page has `<!-- IMAGE: ... -->` comments marking where screenshots would
-help. Short screen recordings work too, as `.mp4` in a `<video>` tag or as GIF.
 
 ## Opening a PR with this text
 
