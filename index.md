@@ -29,13 +29,13 @@ can go first, in any order.
 
 ```
 canary
-└─ pr/00  tidy-up and tools
-   └─ pr/02 … pr/17   edgeless canvas and export
-      └─ pr/18  reusable blocks
-         └─ pr/19  to-do lists, databases and the Journal Todo
-            └─ pr/30, pr/31   mobile
-               └─ pr/40, pr/41, pr/42   server and PWA
-                  └─ pr/50, pr/51   standalone fixes
+└─ pr/02 … pr/17   edgeless canvas and export
+   └─ pr/18  reusable blocks
+      └─ pr/19  to-do lists, databases and the Journal Todo
+         └─ pr/30, pr/31   mobile
+            └─ pr/40, pr/41, pr/42   server and PWA
+               └─ pr/50, pr/51   standalone fixes
+                  └─ pr/00  tidy-up and tools (fork tooling)
                      └─ pr/N-build   fork-only build and deploy
 ```
 

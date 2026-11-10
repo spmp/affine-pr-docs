@@ -36,12 +36,39 @@ More pictures can go further down a page as normal Markdown:
 
 ## Opening a PR with this text
 
+Each file in `pr-text/` starts with two comments: the PR title, and the
+branch to open it from. The body follows upstream's PR template
+(Description, then Checklist), so it can go straight into
+`--body-file`. Delete the comment lines and fill in each `#___` with the PR
+number of the one it depends on.
+
+**Stacked PRs** are opened from their `pr/` branch. GitHub then also shows
+the commits of the PRs below, which the "Depends on other PRs" section
+explains:
+
 ```sh
 gh pr create --repo toeverything/AFFiNE --base canary \
   --head spmp:pr/18-reusable-blocks \
   --title "feat(editor): reusable blocks: note and database references" \
   --body-file pr-text/pr-18.md
 ```
+
+**Independent PRs** (00, 06, 17, 31, 40, 50, 51) are opened from a
+`standalone/` branch that has only that PR's commit on top of `canary`, so
+the PR shows nothing else:
+
+```sh
+git fetch upstream canary
+git switch -c standalone/06-connector-hover-initiation upstream/canary
+git cherry-pick pr/06-connector-hover-initiation     # pr/00: its first commit, pr/00~3
+git push -u origin standalone/06-connector-hover-initiation
+```
+
+pr/40's commit conflicts with `canary` in `packages/backend/server/package.json`;
+keep both sides and run `yarn install` to update `yarn.lock`.
+
+The "Merge conflict" sections were checked on 2026-11-10. Once the stack is
+rebased onto the latest `canary`, delete them.
 
 ## Local preview (optional)
 

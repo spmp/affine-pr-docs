@@ -7,7 +7,7 @@ permalink: /pr-N/
 # pr/N: Build, run and work on the stack
 {: .no_toc }
 
-Branch `pr/N-build` · base `pr/51` · 16 commits · 7 files, +861 −9 ·
+Branch `pr/N-build` · base `pr/00` · 16 commits · 7 files, +861 −9 ·
 **fork only, not offered upstream**
 {: .fs-3 .text-grey-dk-000 }
 
@@ -24,7 +24,9 @@ file and a rebuild script. This is the branch to run, test and deploy. The
 branches below it are what gets reviewed upstream.
 
 The stacking tools (`scripts/cascade-rebase.sh` and the `docs/pr-stack/`
-conventions) are on [pr/00](../pr-00/), so every branch has them.
+conventions) are on [pr/00](../pr-00/), just below this branch. They are
+kept out of the feature branches so the upstream PRs don't include them;
+run them from a `pr/N-build` checkout.
 
 ## Get the stack
 
@@ -42,31 +44,31 @@ based on:
 
 ```
 canary
-  pr/00-tidy-up-canary-and-tools
-    pr/02-color-palettes
-      pr/03-dotted-line-style
-        pr/05-connector-core
-          pr/06-connector-hover-initiation
-            pr/07-flips
-              pr/08-grid-and-snapping
-                pr/09-shapes-and-edges
-                  pr/10-library-shapes
-                    pr/11-advanced-shapes
-                      pr/12-properties-menu-for-shapes-and-connectors
-                        pr/13-frame-resize
-                          pr/14-png-metadata-export-import
-                            pr/15-md-html-export-import
-                              pr/16-frame-from-image-insert
-                                pr/17-middle-click-paste
-                                  pr/18-reusable-blocks
-                                    pr/19-todo-database-integration-in-journal
-                                      pr/30-mobile-keyboard-toolbar
-                                        pr/31-mobile-settings
-                                          pr/40-server-compression
-                                            pr/41-server-pwa
-                                              pr/42-mobile-debug-tools
-                                                pr/50-store-parent-index
-                                                  pr/51-toast-container
+  pr/02-color-palettes
+    pr/03-dotted-line-style
+      pr/05-connector-core
+        pr/06-connector-hover-initiation
+          pr/07-flips
+            pr/08-grid-and-snapping
+              pr/09-shapes-and-edges
+                pr/10-library-shapes
+                  pr/11-advanced-shapes
+                    pr/12-properties-menu-for-shapes-and-connectors
+                      pr/13-frame-resize
+                        pr/14-png-metadata-export-import
+                          pr/15-md-html-export-import
+                            pr/16-frame-from-image-insert
+                              pr/17-middle-click-paste
+                                pr/18-reusable-blocks
+                                  pr/19-todo-database-integration-in-journal
+                                    pr/30-mobile-keyboard-toolbar
+                                      pr/31-mobile-settings
+                                        pr/40-server-compression
+                                          pr/41-server-pwa
+                                            pr/42-mobile-debug-tools
+                                              pr/50-store-parent-index
+                                                pr/51-toast-container
+                                                  pr/00-tidy-up-canary-and-tools
                                                     pr/N-build
 ```
 
@@ -180,6 +182,19 @@ branch contains and its status are in `docs/pr-stack/ROADMAP.md`. Both are on
   done
   ```
 
+### Run the stack script from a copy
+
+`scripts/cascade-rebase.sh` is only on `pr/00` and `pr/N-build`. Switch to
+a feature branch and it's gone from the checkout, and a rebase switches
+branches as it goes. So copy it out once and run the copy:
+
+```sh
+git show pr/N-build:scripts/cascade-rebase.sh > ~/bin/cascade-rebase.sh
+chmod +x ~/bin/cascade-rebase.sh
+```
+
+Re-copy it whenever pr/00 changes the script.
+
 ### Change a branch in the middle of the stack
 
 Commit on the owning branch, then rebase everything above it:
@@ -187,7 +202,7 @@ Commit on the owning branch, then rebase everything above it:
 ```sh
 git switch pr/19-todo-database-integration-in-journal
 # edit, commit (or `git commit --fixup` and squash)
-scripts/cascade-rebase.sh run --from pr/30-mobile-keyboard-toolbar
+cascade-rebase.sh run --from pr/30-mobile-keyboard-toolbar
 ```
 
 ### Rebase the stack onto the latest upstream
@@ -195,16 +210,19 @@ scripts/cascade-rebase.sh run --from pr/30-mobile-keyboard-toolbar
 ```sh
 git fetch upstream canary
 git branch -f canary upstream/canary
-scripts/cascade-rebase.sh plan        # show the order, change nothing
-scripts/cascade-rebase.sh run --verify-cmd "git status --short"
+cascade-rebase.sh plan        # show the order, change nothing
+cascade-rebase.sh run --verify-cmd "git status --short"
 ```
 
 `cascade-rebase.sh` rebases each branch onto the one before it, in the order
-in `.git/machete`.
+in `.git/machete`. It runs a plain `git rebase <parent>`, so it is for
+keeping the existing order up to date. To change the order, as when `pr/00`
+moved up the stack, replay each branch's own commits onto its new parent
+instead, with `git replay --onto <new parent> <old parent>..<branch>`.
 
 - **Conflicts:** it settles a conflict by itself only when one side is exactly
   the parent branch's version of the file. Anything else stops the run. Fix
-  the files and `git add` them, then run `scripts/cascade-rebase.sh run` again
+  the files and `git add` them, then run `cascade-rebase.sh run` again
   to carry on. Don't run `git rebase --continue` yourself.
 - **Other commands:** `status` shows where a stopped run is; `abort` cancels
   it without changing any branch.
@@ -227,7 +245,7 @@ Run the tests on `pr/N-build`:
 
 Known failures are listed in `docs/pr-stack/README.md`. Then rebuild and
 check by hand on desktop and on a phone with the PWA. Only then force-push
-(`git push --force-with-lease origin 'pr/*'`).
+(`git push --force-with-lease origin $(sed -n 's/^ *\(pr\/.*\)/\1/p' .git/machete)`, which pushes exactly the branches in the stack).
 
 ## What's on this branch
 

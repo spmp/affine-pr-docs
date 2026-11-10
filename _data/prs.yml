@@ -29,7 +29,7 @@ prs:
   "11": { title: "Advanced shapes", tagline: "Mind-map and container shapes that collapse.", size: "+1.3k", shot: "Collapsing and expanding a container and a mind-map tree" }
   "12": { title: "Properties panel", tagline: "Every shape and connector setting in one panel, from the … menu or the sidebar.", size: "+2k", shot: "The properties panel open for a connector" }
   "13": { title: "Frame resize", tagline: "Frame embeds sized by zoom, width or aspect ratio; hide grid, inner frames, notes.", size: "+1.3k", shot: "A frame embed in a page at full width vs page width" }
-  "14": { title: "PNG metadata", tagline: "Exported PNGs carry the frame; drop one back in to edit it again.", size: "+1.6k", alone: true, shot: "Export a frame as PNG, then drop the PNG back to get an editable frame" }
+  "14": { title: "PNG metadata", tagline: "Exported PNGs carry the frame; drop one back in to edit it again.", size: "+1.6k", shot: "Export a frame as PNG, then drop the PNG back to get an editable frame" }
   "15": { title: "Markdown/HTML export-import", tagline: "Frames survive a round trip through Markdown and HTML.", size: "+1.6k", shot: "A page with a frame embed, exported to Markdown and re-imported" }
   "17": { title: "Middle-click paste guard", tagline: "A regression test so the Linux middle-click paste setting keeps working.", size: "+57", alone: true }
   "18": { title: "Reusable blocks", tagline: "Show a note or table from any page in place, live and editable.", size: "+11k", shot: "The same note shown on two pages, edited on one, updated on the other" }
