@@ -13,6 +13,8 @@ groups:
     prs: ["40", "41", "42"]
   - name: Standalone fixes and tidy-ups
     prs: ["50", "51", "00"]
+  - name: Using the fork
+    prs: ["N"]
 
 prs:
   "00": { title: "Tidy-up and tools", tagline: "Customised editor settings survive a setting gaining a new field.", size: "5 files", alone: true }
@@ -39,3 +41,4 @@ prs:
   "42": { title: "Debug back channel", tagline: "Logs and remote eval for debugging on a live device. Not ready for upstream.", size: "+1.4k", status: "Not ready" }
   "50": { title: "Store parent index", tagline: "Typing on long pages is faster: parent lookup no longer scans the whole doc.", size: "+226", alone: true }
   "51": { title: "Toast container", tagline: "Toasts show again after leaving the page they first appeared on.", size: "+4", alone: true }
+  "N": { title: "Build and use the stack", tagline: "Build, run and deploy the fork with Docker, and keep the PR stack in order. Fork only.", size: "+861", status: "Fork only" }
