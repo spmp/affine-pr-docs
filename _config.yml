@@ -18,6 +18,9 @@ exclude:
   - README.md
   - Gemfile
   - Gemfile.lock
+  # Listing exclude replaces Jekyll's defaults, so re-add the local gem install.
+  - vendor/
+  - .bundle/
 defaults:
   - scope: { path: "" }
     values: { layout: default }

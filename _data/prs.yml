@@ -22,14 +22,14 @@ prs:
   "06": { title: "Connector from hover", tagline: "Hover a shape, drag a connector straight out of an anchor.", size: "+689", alone: true, shot: "Hover a shape, anchors appear, drag a connector from one" }
   "07": { title: "Flips", tagline: "Flip shapes horizontally and vertically; text stays readable.", size: "+725", shot: "A triangle and an arrow shape, original and flipped, with connectors attached" }
   "08": { title: "Grid and snapping", tagline: "Grid size, snap to grid, and which point of a shape snaps.", size: "+1.4k", shot: "Zoom toolbar grid menu open" }
-  "09": { title: "Shapes and edges", tagline: "~60 new flowchart, arrow, container and mind-map shapes, plus a searchable shape browser.", size: "+13.7k", shot: "The shape browser panel with search" }
+  "09": { title: "Shapes and edges", tagline: "~60 new general, flowchart and arrow shapes, plus a searchable shape browser.", size: "+13.7k", shot: "The shape browser panel with search" }
   "10": { title: "Library shapes", tagline: "~8,900 draw.io stencils (AWS, GCP, Azure, Cisco…), loaded only when used.", size: "+5.6M generated", shot: "Shape browser showing an AWS category with thumbnails" }
-  "11": { title: "Advanced shapes", tagline: "Collapsible containers and mind-map trees.", size: "+1.3k", shot: "Collapsing and expanding a container and a mind-map tree" }
-  "12": { title: "Properties panel", tagline: "Every shape and connector setting in one sidebar panel.", size: "+2k", shot: "The properties panel open for a connector" }
+  "11": { title: "Advanced shapes", tagline: "Mind-map and container shapes that collapse.", size: "+1.3k", shot: "Collapsing and expanding a container and a mind-map tree" }
+  "12": { title: "Properties panel", tagline: "Every shape and connector setting in one panel, from the … menu or the sidebar.", size: "+2k", shot: "The properties panel open for a connector" }
   "13": { title: "Frame resize", tagline: "Frame embeds sized by zoom, width or aspect ratio; hide grid, inner frames, notes.", size: "+1.3k", shot: "A frame embed in a page at full width vs page width" }
   "14": { title: "PNG metadata", tagline: "Exported PNGs carry the frame; drop one back in to edit it again.", size: "+1.6k", alone: true, shot: "Export a frame as PNG, then drop the PNG back to get an editable frame" }
   "15": { title: "Markdown/HTML export-import", tagline: "Frames survive a round trip through Markdown and HTML.", size: "+1.6k", shot: "A page with a frame embed, exported to Markdown and re-imported" }
-  "17": { title: "Middle-click paste guard", tagline: "A regression test for the Linux middle-click paste setting.", size: "+57", alone: true }
+  "17": { title: "Middle-click paste guard", tagline: "A regression test so the Linux middle-click paste setting keeps working.", size: "+57", alone: true }
   "18": { title: "Reusable blocks", tagline: "Show a note or table from any page in place, live and editable.", size: "+11k", shot: "The same note shown on two pages, edited on one, updated on the other" }
   "19": { title: "To-do lists, databases and the Journal Todo", tagline: "Tasks with hierarchy, a List view that types like a to-do list, and one task table on every journal page.", size: "+32.7k", shot: "A nested to-do list and the same tasks as a table with hierarchy" }
   "30": { title: "Mobile keyboard toolbar", tagline: "The toolbar sits on the iOS keyboard, with database and reference tools.", size: "+3.7k", shot: "IPhone screenshot, keyboard open, toolbar sitting on it" }
