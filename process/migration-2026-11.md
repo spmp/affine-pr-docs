@@ -85,7 +85,10 @@ plus the tags from step 1.
         Properties panel uses shape fields that pr/10 adds (`stencilName`,
         `lockAspectRatio`, `textRotate`, `textFlipX/Y`). The edgeless reorder
         (10 and 11 after 15) needs those panel rows moved from pr/12 into
-        pr/10, or the order put back. Waiting on Jasper's decision.
+        pr/10, or the order put back. Jasper chose to move the rows: done
+        (118 lines out of pr/12's panel, back in pr/10; the stack's final
+        tree is identical). pr/12, pr/15, pr/18a and pr/10 now type-check.
+        Also passing on their own: pr/11, pr/18, pr/19, pr/30, pr/41.
   - [ ] GitHub token and CodeRabbit on the fork (Jasper).
   - [ ] Jasper's go; push `working/*` and the published branches; open the
         fork-internal review PRs; delete the remote `pr/00` and `pr/16`.
