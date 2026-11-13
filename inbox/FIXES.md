@@ -42,6 +42,16 @@ views), `journal-todo`, `note-ref` (linked notes / references), `selection` (inl
 - Notes / screenshots:
 -->
 
+### Unit tests failing on the stack (found in the 2026-11-13 migration run)
+- Where: `yarn vitest run` on `working/pr/N-build`; all also fail on the old `pr/N-build`, so not caused by the migration
+- Pri: med
+- Notes:
+  - `blocksuite/affine/all/src/__tests__/database/database.unit.spec.ts`: "promotes ancestors from descendant done and cascades todo without overwriting manual done descendants" (pr/19 area)
+  - `blocksuite/affine/gfx/shape/src/__tests__/shape-browser-library.unit.spec.ts`: "places drawio categories after base ordering": `this._getFilteredItems is not a function` (pr/09/10 area)
+  - `blocksuite/framework/store/src/__tests__/block.unit.spec.ts`: 5 tests (signal props atom/nested/stash-and-pop, deep sync, shared array splice): store change in our stack (pr/50 or pr/18?)
+  - `packages/frontend/core/src/modules/code-block-preview-renderer/typst-preview.integration.spec.ts`: 30 s timeout; passes on plain canary, so something in our stack
+  - Flaky under load: `share-import-controller.spec.tsx` "retains the original image preview…" (passes alone)
+
 ## Tracker
 
 | ID | Title | Route | Lane | Pri | Status | Ref (999.x / commit / debug file) |

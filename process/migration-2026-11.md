@@ -65,7 +65,15 @@ plus the tags from step 1.
         follow-ups folded in with `--fixup`: the Playwright pins (pr/18) and
         a `deepmerge` entry pr/41's new dependency needs.
   - [x] `yarn lint:ox` and the full type check pass on `working/pr/N-build`.
-  - [ ] Unit tests; BlockSuite integration; e2e; server tests.
+  - [x] Unit tests (`yarn vitest run`): 2,101 pass, 20 fail, none new.
+        11 Electron tests (`recording-feature`, `workspace/handlers`) also
+        fail on plain canary. 8 already failed on the old `pr/N-build`:
+        `database.unit.spec.ts` (ancestor promotion), `shape-browser-library`
+        (`_getFilteredItems is not a function`), 5 in the store's
+        `block.unit.spec.ts`, `typst-preview` (30 s timeout).
+        `share-import-controller.spec.tsx` failed 3 times while other heavy
+        jobs ran and passed 4 of 4 runs on its own: flaky under load.
+  - [ ] BlockSuite integration; e2e; server tests.
   - [ ] Jasper: rebuild and on-device check.
 - [x] **8. Tools:** `stack-publish`, `stack-check` (rehearsal, overlap;
       churn not automated), `fix-classify`, `stack-docs`.
