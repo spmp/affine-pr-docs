@@ -81,6 +81,11 @@ plus the tags from step 1.
   - [x] `stack-publish --write`: 24 local branches; combined check OK.
   - [ ] Type-check each generated branch on its own (at least pr/15, pr/11,
         pr/18, pr/18a, pr/19, pr/30, pr/41: their bases changed).
+        **pr/15 fails** (7 errors, all in pr/12's `properties-modal.ts`): the
+        Properties panel uses shape fields that pr/10 adds (`stencilName`,
+        `lockAspectRatio`, `textRotate`, `textFlipX/Y`). The edgeless reorder
+        (10 and 11 after 15) needs those panel rows moved from pr/12 into
+        pr/10, or the order put back. Waiting on Jasper's decision.
   - [ ] GitHub token and CodeRabbit on the fork (Jasper).
   - [ ] Jasper's go; push `working/*` and the published branches; open the
         fork-internal review PRs; delete the remote `pr/00` and `pr/16`.
