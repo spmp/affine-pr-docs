@@ -94,7 +94,9 @@ triggers CodeRabbit again.
 
 1. `tools/stack-publish` regenerates `pr/*` and `fix/*` locally and runs its
    checks (see [Branches](../branches/#generating-the-published-branches)).
-2. `tools/stack-check` rehearsal, if commits were regrouped since last time.
+2. `tools/stack-typecheck`: every published branch type-checks on its own.
+   Then `tools/stack-check rehearsal`, if commits were regrouped since last
+   time.
 3. **Jasper** reviews the list of branches that changed and gives the go.
 4. Push the changed published branches:
    `git push --force-with-lease origin <branches>`.

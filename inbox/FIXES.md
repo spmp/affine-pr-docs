@@ -60,7 +60,7 @@ views), `journal-todo`, `note-ref` (linked notes / references), `selection` (inl
   - pr/05: `blocksuite/affine/components/src/edgeless-shape-color-picker/color-picker.ts` calls with 2 arguments where 3 are expected
   - pr/06: the same, plus `edge-nodes.spec.ts`
   - pr/07: the same, plus `edgeless-auto-complete.ts`
-  - Logs: run `typecheck-branches` again (see process/weekly.md, publishing)
+  - Re-check with `tools/stack-typecheck pr/02-color-palettes …`
 
 ## Tracker
 

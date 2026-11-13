@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Type-check generated branches one at a time, each on its own, in a scratch
+# worktree (default /workspace/wt/typecheck; its first `yarn install` takes a
+# few minutes and ~2-3 GB).
+#
+#   stack-typecheck                 every published branch in stack.yml
+#   stack-typecheck <branch>...     just these
+#
+# Writes one log per branch to $LOGS (default /tmp/stack-typecheck) and a
+# summary line per branch to stdout. Changes no branch.
+set -uo pipefail
+HERE=$(cd "$(dirname "$0")" && pwd)
+REPO=${AFFINE_REPO:-/workspace/AFFiNE}
+W=${STACK_TYPECHECK_WORKTREE:-/workspace/wt/typecheck}
+LOGS=${LOGS:-/tmp/stack-typecheck}
+mkdir -p "$LOGS"
+
+if [ $# -eq 0 ]; then
+  set -- $(python3 -c "
+import sys; sys.path.insert(0, '$HERE')
+from stacklib import load_stack
+print(' '.join(e['publish'] for e in load_stack()['stack'] if e.get('publish')))")
+fi
+
+[ -d "$W" ] || git -C "$REPO" worktree add -q --detach "$W" upstream/canary || exit 2
+fail=0
+for b in "$@"; do
+  log="$LOGS/$(echo "$b" | tr / _).log"
+  if ! git -C "$W" checkout -q -f --detach "$b"; then echo "$b: checkout failed"; fail=1; continue; fi
+  if ! (cd "$W" && yarn install > "$log" 2>&1); then echo "$b: yarn install failed (see $log)"; fail=1; continue; fi
+  (cd "$W" && NODE_OPTIONS=--max-old-space-size=14384 yarn typecheck >> "$log" 2>&1)
+  n=$(grep -c 'error TS' "$log")
+  if [ "$n" = 0 ]; then echo "$b: ok"; else echo "$b: $n errors (see $log)"; fail=1; fi
+done
+exit $fail

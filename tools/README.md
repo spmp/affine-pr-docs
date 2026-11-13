@@ -6,6 +6,7 @@ Run from this folder or with a path; they work on `/workspace/AFFiNE`
 | Tool | What it does |
 | --- | --- |
 | `stack-publish [--write]` | Generates `pr/*` and `fix/*` from `working/*` per `stack.yml`; shows file counts against canary and checks the result. `--write` sets the local branches. |
+| `stack-typecheck [branch...]` | Type-checks each published branch on its own in a scratch worktree. |
 | `stack-check rehearsal [--weeks N] [base..tip ...]` | Replays a history onto each of the last N weeks of upstream canary and counts conflicts. |
 | `stack-check overlap` | Files edited by more than one working branch. |
 | `stack-docs [--write]` | Refreshes PR page header lines and PR texts' "Depends on other PRs" from `stack.yml` and the generated branches. |

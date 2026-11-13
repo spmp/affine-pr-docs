@@ -90,7 +90,8 @@ top:
    tree as the working stack up to the last published branch.
 
 Type-checking each generated branch on its own is a separate step before a
-publish (in a worktree of that branch); it isn't automated yet.
+publish: `tools/stack-typecheck` (about a minute per branch, in a scratch
+worktree). Upstream merges PRs one at a time, so each must build alone.
 
 It writes local branches only. Pushing is a separate, reviewed step (see
 [Weekly runbook](../weekly/#publishing-upstream)). Pushing a `pr/*` branch
