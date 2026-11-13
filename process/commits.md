@@ -80,13 +80,16 @@ They don't show in `git branch`, cost nothing, and are pushed only if asked
 ## Measuring lumpiness
 
 Three checks, all computed in memory with `git merge-tree` so no branch
-moves. `tools/stack-check` (to be built) runs them; the first is the one that
-decides.
+moves. `tools/stack-check rehearsal` and `tools/stack-check overlap` run the
+first and third; the second (churn) isn't automated yet. The rehearsal is the
+one that decides.
 
 1. **Rebase rehearsal.** Take upstream `canary` as it was at the end of each
    of the last 8–10 weeks, replay the stack onto each, commit by commit, and
    count conflicts. Compare two candidate histories (say, before and after a
    squash): fewer conflicts wins. Run it before every regrouping of commits.
+   A history conflicts least on the snapshots nearest its own base, so compare
+   histories that sit on the same base.
 2. **Churn inside a branch.** For each commit, the share of its changed lines
    that rewrite lines added by an earlier commit on the same branch. High
    churn without an inbox id means noise: fold it in.

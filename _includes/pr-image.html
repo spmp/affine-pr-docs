@@ -5,5 +5,5 @@
 {%- if hero -%}
 <img class="pr-img" src="{{ hero.path | relative_url }}" alt="{{ pr.title }}" loading="lazy">
 {%- else -%}
-<div class="pr-img pr-img--placeholder"><span>pr/{{ include.id }}</span>{% if pr.shot %}<small>Screenshot to come: {{ pr.shot }}</small>{% endif %}</div>
+<div class="pr-img pr-img--placeholder"><span>{% if pr.label %}{{ pr.label }}{% else %}pr/{{ include.id }}{% endif %}</span>{% if pr.shot %}<small>Screenshot to come: {{ pr.shot }}</small>{% endif %}</div>
 {%- endif -%}

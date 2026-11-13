@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# The canary check: does a failing test also fail on plain upstream canary?
+#
+#   fix-classify <test file>... -- <test command>
+#
+# Example:
+#   fix-classify blocksuite/affine/data-view/src/__tests__/kanban.unit.spec.ts \
+#     -- yarn vitest run blocksuite/affine/data-view/src/__tests__/kanban.unit.spec.ts
+#
+# Copies the test file(s) from the AFFiNE checkout into a worktree of
+# upstream/canary (default /workspace/affine-canary, created if missing; its
+# first `yarn install` takes a few minutes and ~2-3 GB), runs the command there,
+# prints the verdict, and removes the copied files again.
+# See process/fixes.md, "The canary check".
+set -uo pipefail
+
+REPO=${AFFINE_REPO:-/workspace/AFFiNE}
+CANARY=${AFFINE_CANARY:-/workspace/affine-canary}
+
+files=()
+while [ $# -gt 0 ] && [ "$1" != "--" ]; do files+=("$1"); shift; done
+[ "${1:-}" = "--" ] && shift
+[ ${#files[@]} -gt 0 ] && [ $# -gt 0 ] || { sed -n '2,13p' "$0"; exit 2; }
+
+git -C "$REPO" fetch -q upstream canary || echo "warning: fetch failed; using the last fetched upstream/canary" >&2
+if [ ! -d "$CANARY" ]; then
+  git -C "$REPO" worktree add -q --detach "$CANARY" upstream/canary || exit 2
+else
+  git -C "$CANARY" checkout -q --detach upstream/canary || exit 2
+fi
+canary_commit=$(git -C "$CANARY" rev-parse --short HEAD)
+
+if [ ! -d "$CANARY/node_modules" ] || ! git -C "$CANARY" diff --quiet HEAD@{1} HEAD -- yarn.lock 2>/dev/null; then
+  echo "installing dependencies in $CANARY ..." >&2
+  (cd "$CANARY" && yarn install >/dev/null) || { echo "yarn install failed in $CANARY" >&2; exit 2; }
+fi
+
+copied=()
+for f in "${files[@]}"; do
+  existed=0; [ -e "$CANARY/$f" ] && existed=1
+  mkdir -p "$CANARY/$(dirname "$f")"
+  cp "$REPO/$f" "$CANARY/$f" || exit 2
+  [ $existed = 0 ] && copied+=("$f")
+done
+
+(cd "$CANARY" && "$@")
+status=$?
+
+# put the canary worktree back
+git -C "$CANARY" checkout -q -- . 2>/dev/null
+for f in "${copied[@]}"; do rm -f "$CANARY/$f"; done
+
+echo
+if [ $status = 0 ]; then
+  echo "Canary check: passes on upstream/canary $canary_commit -> ours: fix on the owning working/pr branch"
+else
+  echo "Canary check: FAILS on upstream/canary $canary_commit (exit $status) -> check it fails the same way;"
+  echo "  if so it is upstream's bug: its own working/fix/<slug> branch, upstream issue and PR"
+fi
+exit 0

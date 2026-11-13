@@ -42,9 +42,10 @@ branch to open it from. The body follows upstream's PR template
 `--body-file`. Delete the comment lines and fill in each `#___` with the PR
 number of the one it depends on.
 
-**Stacked PRs** are opened from their `pr/` branch. GitHub then also shows
-the commits of the PRs below, which the "Depends on other PRs" section
-explains:
+Every PR is opened from its generated branch (`pr/NN-…` or `fix/…`), made by
+`tools/stack-publish` from the fork's `working/*` stack. Each is one commit on
+`canary`, or on only the PRs it really needs (see `tools/stack.yml`), so the
+PR shows its own change plus the minimum below it:
 
 ```sh
 gh pr create --repo toeverything/AFFiNE --base canary \
@@ -53,22 +54,14 @@ gh pr create --repo toeverything/AFFiNE --base canary \
   --body-file pr-text/pr-18.md
 ```
 
-**Independent PRs** (00, 06, 17, 31, 40, 50, 51) are opened from a
-`standalone/` branch that has only that PR's commit on top of `canary`, so
-the PR shows nothing else:
+Opening and editing PRs on upstream needs Jasper's own GitHub account (see
+`process/setup.md`). Pushing a generated branch updates its open PR in place.
 
-```sh
-git fetch upstream canary
-git switch -c standalone/06-connector-hover-initiation upstream/canary
-git cherry-pick pr/06-connector-hover-initiation     # pr/00: its first commit, pr/00~3
-git push -u origin standalone/06-connector-hover-initiation
-```
+## Process and tools
 
-pr/40's commit conflicts with `canary` in `packages/backend/server/package.json`;
-keep both sides and run `yarn install` to update `yarn.lock`.
-
-The "Merge conflict" sections were checked on 2026-11-10. Once the stack is
-rebased onto the latest `canary`, delete them.
+How the fork is worked on is in `process/` (published as the site's Process
+section). The stack's tools are in `tools/` (see `tools/README.md`); the fix
+inbox is `inbox/FIXES.md`. Neither folder is published.
 
 ## Local preview (optional)
 

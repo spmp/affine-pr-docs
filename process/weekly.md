@@ -98,11 +98,13 @@ triggers CodeRabbit again.
 3. **Jasper** reviews the list of branches that changed and gives the go.
 4. Push the changed published branches:
    `git push --force-with-lease origin <branches>`.
-5. Update the fork-internal review PRs' bases if a base changed; open
-   upstream PRs for any new `fix/*` (with its issue), and update `pr-text/`
-   and PR descriptions whose text is now wrong.
-6. Update the overview page (`index.md`) and the PR pages' header lines
-   (commit counts, file counts, bases).
+5. `tools/stack-docs --write` refreshes the PR pages' header lines and the
+   PR texts' "Depends on other PRs" sections from `stack.yml`; commit them.
+6. Update the fork-internal review PRs' bases if a base changed. Jasper opens
+   upstream PRs for any new `fix/*` (with its issue) and pastes PR text that
+   changed into the upstream descriptions.
+7. If the order or bases changed: the overview diagram in `index.md` and the
+   cards in `_data/prs.yml` (`alone: true` = based on canary).
 
 ## Run log
 

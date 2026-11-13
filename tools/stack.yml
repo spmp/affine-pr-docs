@@ -30,7 +30,7 @@ stack:
   - { working: working/pr/02-color-palettes, publish: pr/02-color-palettes, base: canary, upstream: 15825 }
   - { working: working/pr/03-dotted-line-style, publish: pr/03-dotted-line-style, base: pr/02-color-palettes, upstream: 15826 }
   - { working: working/pr/05-connector-core, publish: pr/05-connector-core, base: pr/03-dotted-line-style, upstream: 15827 }
-  - { working: working/pr/06-connector-hover-initiation, publish: pr/06-connector-hover-initiation, base: pr/05-connector-core, upstream: 15828, status: tentative }   # may go on canary
+  - { working: working/pr/06-connector-hover-initiation, publish: pr/06-connector-hover-initiation, base: pr/05-connector-core, upstream: 15828 }   # applies alone on canary, but pr/07 needs both 05 and 06, so it stays in the chain
   - { working: working/pr/07-flips, publish: pr/07-flips, base: pr/06-connector-hover-initiation, upstream: 15829 }
   - { working: working/pr/08-grid-and-snapping, publish: pr/08-grid-and-snapping, base: pr/07-flips, upstream: 15830 }
   - { working: working/pr/09-shapes-and-edges, publish: pr/09-shapes-and-edges, base: pr/08-grid-and-snapping, upstream: 15831 }
@@ -44,8 +44,8 @@ stack:
   - { working: working/pr/17-middle-click-paste, publish: pr/17-middle-click-paste, base: canary, upstream: 15838 }
 
   # Documents, databases and the Journal Todo.
-  - { working: working/pr/18-reusable-blocks, publish: pr/18-reusable-blocks, base: canary, upstream: 15839, status: tentative }   # canary once the Note properties move to 18a
-  - { working: working/pr/18a-note-properties-panel, publish: pr/18a-note-properties-panel, base: [pr/12-properties-menu-for-shapes-and-connectors, pr/18-reusable-blocks], status: tentative }   # two bases: open upstream once 12 and 18 merge
+  - { working: working/pr/18-reusable-blocks, publish: pr/18-reusable-blocks, base: canary, upstream: 15839 }
+  - { working: working/pr/18a-note-properties-panel, publish: pr/18a-note-properties-panel, base: [pr/13-frame-resize, pr/18-reusable-blocks], status: tentative }   # two bases (pr/13 also edits properties-modal.ts); open upstream once 13 and 18 merge
   - { working: working/pr/19-todo-database-integration-in-journal, publish: pr/19-todo-database-integration-in-journal, base: pr/18-reusable-blocks, upstream: 15840 }
 
   # Mobile.
@@ -54,7 +54,7 @@ stack:
 
   # Server and PWA.
   - { working: working/pr/40-server-compression, publish: pr/40-server-compression, base: canary, upstream: 15843 }
-  - { working: working/pr/41-server-pwa, publish: pr/41-server-pwa, base: canary, upstream: 15844, status: tentative }   # canary once the stencil-utils hunk is dropped
+  - { working: working/pr/41-server-pwa, publish: pr/41-server-pwa, base: canary, upstream: 15844 }
   - { working: working/pr/42-mobile-debug-tools }   # fork only for now
 
   # Fork only: build, deploy, fork tooling. Never published.

@@ -1,17 +1,16 @@
 ---
-title: pr/00 Tidy-up and tools
+title: fix/editor-setting-fallback
 nav_order: 1
-permalink: /pr-00/
+permalink: /pr-fix-editor-setting-fallback/
 ---
 
-# pr/00: Tidy-up and tools
+# fix/editor-setting-fallback: Keep customised editor settings
 {: .no_toc }
 
-Branch `pr/00-tidy-up-canary-and-tools` · base `pr/51` · 5 commits · 5 files,
-+1,015 −8
+Branch `fix/editor-setting-fallback` · base `canary` · 2 files, +71 −8
 {: .fs-3 .text-grey-dk-000 }
 
-{% include pr-hero.html id="00" %}
+{% include pr-hero.html id="fix-editor-setting-fallback" %}
 
 ## Why
 
@@ -23,18 +22,15 @@ user's connector colour, stroke and mode, not just fill in the new field.
 
 ## What changes
 
-- **Settings fix (upstream candidate):** stored settings are merged onto the
-  schema's defaults before they are validated. Only the missing field gets its
-  default; everything else the user set is kept. The entry falls back to the
-  full default only if the merged value still fails to validate, such as
-  corrupt data.
-- **Fork tooling (not for upstream):** `scripts/cascade-rebase.sh` and the
-  `docs/pr-stack/` conventions and roadmap that keep this PR stack in order.
+Stored settings are merged onto the schema's defaults before they are
+validated. Only the missing field gets its default; everything else the user
+set is kept. The entry falls back to the full default only if the merged value
+still fails to validate, such as corrupt data.
 
-This branch sits near the top of the stack, just below
-[pr/N-build](../pr-N/), so the fork tooling doesn't appear in the feature
-PRs. The settings fix goes upstream on its own, from a branch with just that
-commit.
+This was the upstream-candidate part of the former `pr/00`. It is now its own
+branch at the bottom of the stack (see the [Fix register](../process/fix-register/));
+the fork tooling that shared `pr/00` with it moved to this site's
+[Process](../process/) section.
 
 ## How it works
 
@@ -53,6 +49,14 @@ This is the same merge-over-defaults pattern already used in
 - a non-object value falls back to the default
 - an undefined value falls back to the default
 
+## Changes
+
+Changes since the PR was first offered, newest first (see the
+[definition of done](../process/#definition-of-done)).
+
+- None yet.
+
 ## Open items
 
-- Offer the settings fix upstream on its own, without the scripts and docs.
+- Canary check (does the test fail on plain `canary`?), then open the upstream
+  issue and PR.

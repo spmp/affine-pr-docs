@@ -2,7 +2,7 @@
 <a class="pr-card" href="{{ '/pr-' | append: include.id | append: '/' | relative_url }}">
   {% include pr-image.html id=include.id %}
   <div class="pr-card__body">
-    <div class="pr-card__id">pr/{{ include.id }}</div>
+    <div class="pr-card__id">{% if pr.label %}{{ pr.label }}{% else %}pr/{{ include.id }}{% endif %}</div>
     <div class="pr-card__title">{{ pr.title }}</div>
     <p class="pr-card__tagline">{{ pr.tagline }}</p>
     <div class="pr-card__meta">

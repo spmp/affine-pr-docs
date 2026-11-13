@@ -41,8 +41,9 @@ git worktree add ../affine-canary upstream/canary     # once; later: git -C ../a
 # copy the new test file(s) into ../affine-canary, then run the same command there
 ```
 
-`tools/fix-classify <test file>` (to be built) does this and prints the
-verdict.
+`tools/fix-classify <test file>... -- <test command>` does this and prints
+the verdict, e.g.
+`tools/fix-classify path/to/x.spec.ts -- yarn vitest run path/to/x.spec.ts`.
 
 | Result on canary | Meaning | Where the fix goes |
 | --- | --- | --- |

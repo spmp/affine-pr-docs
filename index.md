@@ -22,25 +22,27 @@ permalink: /
 
 ## How the PRs fit together
 
-The fork carries its work as one **linear stack** of branches on top of
-upstream `canary`. Each branch holds one feature or theme and is based on the
-one before it. Reviewing in stack order is easiest; the "Reviewable alone" PRs
-can go first, in any order.
+Each PR branch is generated from the fork's working stack so that it carries
+as little as possible: it sits straight on `canary` when it can ("Reviewable
+alone"), otherwise on only the PRs it really needs. The edgeless chain is the
+one long dependency; `pr/10` (the generated draw.io libraries, 237 files) is
+last in it so the PRs before it stay small enough for automated review.
 
 ```
 canary
-└─ pr/02 … pr/17   edgeless canvas and export
-   └─ pr/18  reusable blocks
-      └─ pr/19  to-do lists, databases and the Journal Todo
-         └─ pr/30, pr/31   mobile
-            └─ pr/40, pr/41, pr/42   server and PWA
-               └─ pr/50, pr/51   standalone fixes
-                  └─ pr/00  tidy-up and tools (fork tooling)
-                     └─ pr/N-build   fork-only build and deploy
+├─ fix/editor-setting-fallback, pr/50, pr/51   fixes for upstream bugs
+├─ pr/02 → 03 → 05 → 06 → 07 → 08 → 09 → 12 → 13 → 14 → 15 → 10 → 11
+│                                         edgeless canvas and export
+├─ pr/17                                  middle-click paste
+├─ pr/18 → pr/19 → pr/30                  reusable blocks, Journal Todo, mobile toolbar
+│     └─ pr/18a (also needs pr/13)        note settings in the Properties panel
+├─ pr/31                                  mobile settings
+├─ pr/40                                  server compression
+└─ pr/41                                  PWA
 ```
 
-Branch numbers: `00` tooling, `02–2x` features, `30s` mobile, `40s` server,
-`50s` standalone fixes, `N-build` fork-only. `pr/16` is empty (its work is in
-`pr/14` and upstream) and will be dropped.
+Not offered upstream: `pr/42` (debug back channel) and the fork's own build
+([pr/N](pr-N/)). How the branches are made and kept up to date:
+[Process](process/).
 
-Last updated 2026-11-01.
+Last updated 2026-11-13.

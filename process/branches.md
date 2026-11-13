@@ -61,8 +61,9 @@ Backups are **tags** (`archive/<date>/<branch>`), never branches. See
   published edgeless chain is `02 → 03 → 05 → … → 09 → 12 → 13 → 14 → 15 →
   10 → 11`, so pr/10's 237 files no longer push 12–15 over the 300-file limit.
 
-A branch with **two bases** (`18a`, which links pr/18's note references into
-pr/12's Properties panel) is generated on a temporary base that combines both.
+A branch with **two bases** (`18a`, which adds pr/18's note settings to the
+Properties panel from pr/12, a file pr/13 also edits, so its bases are pr/13
+and pr/18) is generated on a merge commit that combines both.
 Its upstream PR is opened once both bases have merged; until then it is
 reviewed only inside the fork.
 
@@ -71,7 +72,8 @@ built it and the type check passes on it.
 
 ## Generating the published branches
 
-`tools/stack-publish` (to be built) does, for each published entry, bottom to
+`tools/stack-publish` (run from this repository: `tools/stack-publish`, then
+`tools/stack-publish --write`) does, for each published entry, bottom to
 top:
 
 1. Take the working branch's own change: the diff from the working branch
@@ -82,9 +84,13 @@ top:
 3. Stop on any conflict: it means `base` is missing a real dependency. Fix
    `stack.yml` (or move the hunk to the branch that owns it), don't hand-edit
    the result.
-4. Check: the generated branch type-checks on its own.
+4. Report each branch's files against canary, and flag any over CodeRabbit's
+   300-file limit.
 5. Check: applying all generated branches together on `canary` gives the same
-   tree as `working/pr/N-build` minus N-build's own commits.
+   tree as the working stack up to the last published branch.
+
+Type-checking each generated branch on its own is a separate step before a
+publish (in a worktree of that branch); it isn't automated yet.
 
 It writes local branches only. Pushing is a separate, reviewed step (see
 [Weekly runbook](../weekly/#publishing-upstream)). Pushing a `pr/*` branch

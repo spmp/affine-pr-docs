@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+"""Generate the upstream branches (pr/*, fix/*) from the working/* stack.
+
+  stack-publish            plan only: build every published commit in memory,
+                           run the checks, show what would change
+  stack-publish --write    also set the local published branches
+
+Never pushes. See process/branches.md, "Generating the published branches".
+
+Each published branch is one commit: the working branch's own change (diff
+from the working branch below it), applied onto its `base` from stack.yml.
+Commit dates come from the working branch's tip, so regenerating unchanged
+input gives the same commit id and nothing needs pushing.
+"""
+import sys
+
+from stacklib import COMMITTER, git, load_stack, merge_tree, rev, working_parent
+
+CODERABBIT_FILE_LIMIT = 300
+WRITE = '--write' in sys.argv
+
+
+def message_for(parent, tip):
+    commits = git('rev-list', '--reverse', f'{parent}..{tip}').split()
+    if not commits:
+        return None
+    first = git('show', '-s', '--format=%B', commits[0]).strip()
+    rest = [git('show', '-s', '--format=%s', c) for c in commits[1:]]
+    rest = [s for s in rest if not s.startswith(('fixup!', 'squash!', 'amend!'))]
+    if rest:
+        first += '\n\nAlso in this change:\n' + '\n'.join(f'- {s}' for s in rest)
+    return first
+
+
+def main():
+    cfg = load_stack()
+    stack = cfg['stack']
+    upstream = f"upstream/{cfg.get('upstream_branch', 'canary')}"
+    canary = rev(upstream)
+    generated = {}          # publish name -> commit
+    rows, problems = [], []
+
+    for i, e in enumerate(stack):
+        name = e.get('publish')
+        if not name:
+            continue
+        wb, wp = e['working'], working_parent(stack, i, upstream)
+        if not rev(wb):
+            problems.append(f'{wb}: working branch missing')
+            continue
+        bases = e.get('base', 'canary')
+        bases = bases if isinstance(bases, list) else [bases]
+        parents = []
+        for b in bases:
+            if b == 'canary':
+                parents.append(canary)
+            elif b in generated:
+                parents.append(generated[b])
+            else:
+                problems.append(f'{name}: base {b} not generated (missing, or above it in stack.yml)')
+        if len(parents) != len(bases):
+            continue
+
+        tip_date = git('show', '-s', '--format=%cd', '--date=raw', wb)
+        env = dict(COMMITTER, GIT_AUTHOR_NAME=COMMITTER['GIT_COMMITTER_NAME'],
+                   GIT_AUTHOR_EMAIL=COMMITTER['GIT_COMMITTER_EMAIL'],
+                   GIT_AUTHOR_DATE=tip_date, GIT_COMMITTER_DATE=tip_date)
+
+        base_commit = parents[0]
+        if len(parents) > 1:   # combine several bases in a merge commit (fork-internal review only)
+            tree = parents[0]
+            for p in parents[1:]:
+                mb = git('merge-base', base_commit, p)
+                t, conflicts = merge_tree(mb, base_commit, p)
+                if conflicts:
+                    problems.append(f'{name}: its bases conflict with each other: {conflicts}')
+                    break
+                args = ['commit-tree', t, '-p', base_commit, '-p', p, '-m', f'Combined base for {name}']
+                base_commit = git(*args, env=env)
+            else:
+                pass
+            if problems and problems[-1].startswith(name):
+                continue
+
+        tree, conflicts = merge_tree(wp, base_commit, wb)
+        if conflicts:
+            problems.append(f'{name}: does not apply on {", ".join(bases)}; conflicts in '
+                            + ', '.join(conflicts[:6]))
+            continue
+        msg = message_for(wp, wb)
+        if msg is None:
+            problems.append(f'{name}: {wb} has no commits of its own')
+            continue
+        commit = git('commit-tree', tree, '-p', base_commit, '-F', '-', env=env, input=msg + '\n')
+        generated[name] = commit
+
+        files = len(git('diff', '--name-only', canary, commit).splitlines())
+        own = len(git('diff', '--name-only', base_commit, commit).splitlines())
+        current = rev(name)
+        remote = rev(f'origin/{name}')
+        state = 'same' if current == commit else ('new' if not current else 'changed')
+        rows.append((name, '+'.join(bases), own, files, state,
+                     'same' if remote == commit else 'differs'))
+
+    # Check: all published changes together == the working stack below the first
+    # unpublished entry above them.
+    last_pub = max((i for i, e in enumerate(stack) if e.get('publish')), default=-1)
+    unpublished_below = [e['working'] for e in stack[:last_pub + 1] if not e.get('publish')]
+    combined_ok = None
+    if not unpublished_below and not problems:
+        tip = canary
+        for i, e in enumerate(stack[:last_pub + 1]):
+            c = generated[e['publish']]
+            t, conflicts = merge_tree(f'{c}^', tip, c)
+            if conflicts:
+                problems.append(f'combined check: {e["publish"]} conflicts when combined: {conflicts[:4]}')
+                break
+            tip = git('commit-tree', t, '-p', tip, '-m', 'combined')
+        else:
+            want = git('rev-parse', stack[last_pub]['working'] + '^{tree}')
+            got = git('rev-parse', tip + '^{tree}')
+            combined_ok = want == got
+            if not combined_ok:
+                diff = git('diff', '--stat', want, got)
+                problems.append('combined check: published branches together differ from '
+                                f'{stack[last_pub]["working"]}:\n{diff}')
+
+    w = max(len(r[0]) for r in rows) if rows else 10
+    print(f'{"branch":<{w}}  {"own":>5} {"vs canary":>9}  local    origin   base')
+    for name, bases, own, files, state, remote in rows:
+        flag = '  OVER CodeRabbit limit' if files > CODERABBIT_FILE_LIMIT else ''
+        print(f'{name:<{w}}  {own:>5} {files:>9}  {state:<8} {remote:<8} {bases}{flag}')
+    if combined_ok:
+        print('\ncombined check: OK (published branches together == working stack)')
+    if problems:
+        print('\nPROBLEMS:')
+        for p in problems:
+            print(' -', p)
+        sys.exit(1)
+    if WRITE:
+        for name, c in generated.items():
+            git('branch', '-f', name, c)
+        print(f'\nwrote {len(generated)} local branches')
+    else:
+        print('\nplan only; run with --write to set the local branches')
+
+
+main()
