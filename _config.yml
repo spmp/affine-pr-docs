@@ -12,9 +12,11 @@ heading_anchors: true
 aux_links:
   "spmp/AFFiNE on GitHub": https://github.com/spmp/AFFiNE
   "Upstream AFFiNE": https://github.com/toeverything/AFFiNE
-# pr-text/ holds the PR descriptions to paste into GitHub; it is not part of the site.
+# pr-text/ (PR descriptions to paste into GitHub), tools/ and inbox/ are not part of the site.
 exclude:
   - pr-text/
+  - tools/
+  - inbox/
   - README.md
   - Gemfile
   - Gemfile.lock

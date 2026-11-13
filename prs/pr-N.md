@@ -161,6 +161,12 @@ For a full local server with a database, the Docker setup above is simpler.
 
 ## Work on the stack
 
+> **Changing (November 2026).** The stack is moving to `working/*` branches,
+> with the upstream `pr/*` branches generated from them, and `pr/00` goes
+> away. The new process is in [Process](../process/); the migration's
+> progress is in [Migration](../process/migration-2026-11/). The steps below
+> describe the old layout until the migration is done.
+
 The full rules and procedure are in `docs/pr-stack/README.md`, and what each
 branch contains and its status are in `docs/pr-stack/ROADMAP.md`. Both are on
 `pr/00`.

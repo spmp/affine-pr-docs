@@ -1,0 +1,61 @@
+# The AFFiNE fork's branch stack. Source of truth for the tools in this folder
+# and for process/branches.md.
+#
+# `stack` lists the working branches bottom to top: the order of the single
+# linear stack in spmp/AFFiNE that is developed, rebased and run.
+#
+# Each entry:
+#   working:   the working branch (prefix `working/`)
+#   publish:   the branch generated for upstream (no prefix); omit = never published
+#   base:      what the published branch is generated on: `canary`, or the
+#              `publish` name of one lower entry. Its lineage (base, base's base, …)
+#              must keep the same relative order as `stack`.
+#   upstream:  the open upstream PR number, if there is one
+#   status:    tentative = base not yet confirmed by the generator
+#
+# Rules: see process/branches.md. Change this file in the same commit as any
+# change to the stack's order or bases.
+
+upstream: toeverything/AFFiNE
+upstream_branch: canary
+fork: spmp/AFFiNE
+
+stack:
+  # Upstream bugs: each on canary, below every feature branch.
+  - { working: working/fix/editor-setting-fallback, publish: fix/editor-setting-fallback, base: canary, status: tentative }   # from pr/00 d92d4c28c6; canary check pending
+  - { working: working/fix/store-parent-index, publish: pr/50-store-parent-index, base: canary, upstream: 15845 }
+  - { working: working/fix/toast-container, publish: pr/51-toast-container, base: canary, upstream: 15846 }
+
+  # Edgeless. pr/10 and pr/11 sit last so 12-15 stay under CodeRabbit's 300-file limit.
+  - { working: working/pr/02-color-palettes, publish: pr/02-color-palettes, base: canary, upstream: 15825 }
+  - { working: working/pr/03-dotted-line-style, publish: pr/03-dotted-line-style, base: pr/02-color-palettes, upstream: 15826 }
+  - { working: working/pr/05-connector-core, publish: pr/05-connector-core, base: pr/03-dotted-line-style, upstream: 15827 }
+  - { working: working/pr/06-connector-hover-initiation, publish: pr/06-connector-hover-initiation, base: pr/05-connector-core, upstream: 15828, status: tentative }   # may go on canary
+  - { working: working/pr/07-flips, publish: pr/07-flips, base: pr/06-connector-hover-initiation, upstream: 15829 }
+  - { working: working/pr/08-grid-and-snapping, publish: pr/08-grid-and-snapping, base: pr/07-flips, upstream: 15830 }
+  - { working: working/pr/09-shapes-and-edges, publish: pr/09-shapes-and-edges, base: pr/08-grid-and-snapping, upstream: 15831 }
+  - { working: working/pr/12-properties-menu-for-shapes-and-connectors, publish: pr/12-properties-menu-for-shapes-and-connectors, base: pr/09-shapes-and-edges, upstream: 15834 }
+  - { working: working/pr/13-frame-resize, publish: pr/13-frame-resize, base: pr/12-properties-menu-for-shapes-and-connectors, upstream: 15835 }
+  - { working: working/pr/14-png-metadata-export-import, publish: pr/14-png-metadata-export-import, base: pr/13-frame-resize, upstream: 15836 }
+  - { working: working/pr/15-md-html-export-import, publish: pr/15-md-html-export-import, base: pr/14-png-metadata-export-import, upstream: 15837 }
+  - { working: working/pr/10-library-shapes, publish: pr/10-library-shapes, base: pr/15-md-html-export-import, upstream: 15832 }
+  - { working: working/pr/11-advanced-shapes, publish: pr/11-advanced-shapes, base: pr/10-library-shapes, upstream: 15833 }
+
+  - { working: working/pr/17-middle-click-paste, publish: pr/17-middle-click-paste, base: canary, upstream: 15838 }
+
+  # Documents, databases and the Journal Todo.
+  - { working: working/pr/18-reusable-blocks, publish: pr/18-reusable-blocks, base: canary, upstream: 15839, status: tentative }   # canary once the Note properties move to 18a
+  - { working: working/pr/18a-note-properties-panel, publish: pr/18a-note-properties-panel, base: [pr/12-properties-menu-for-shapes-and-connectors, pr/18-reusable-blocks], status: tentative }   # two bases: open upstream once 12 and 18 merge
+  - { working: working/pr/19-todo-database-integration-in-journal, publish: pr/19-todo-database-integration-in-journal, base: pr/18-reusable-blocks, upstream: 15840 }
+
+  # Mobile.
+  - { working: working/pr/30-mobile-keyboard-toolbar, publish: pr/30-mobile-keyboard-toolbar, base: pr/19-todo-database-integration-in-journal, upstream: 15841 }
+  - { working: working/pr/31-mobile-settings, publish: pr/31-mobile-settings, base: canary, upstream: 15842 }
+
+  # Server and PWA.
+  - { working: working/pr/40-server-compression, publish: pr/40-server-compression, base: canary, upstream: 15843 }
+  - { working: working/pr/41-server-pwa, publish: pr/41-server-pwa, base: canary, upstream: 15844, status: tentative }   # canary once the stencil-utils hunk is dropped
+  - { working: working/pr/42-mobile-debug-tools }   # fork only for now
+
+  # Fork only: build, deploy, fork tooling. Never published.
+  - { working: working/pr/N-build }
