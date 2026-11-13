@@ -89,6 +89,13 @@ plus the tags from step 1.
         (118 lines out of pr/12's panel, back in pr/10; the stack's final
         tree is identical). pr/12, pr/15, pr/18a and pr/10 now type-check.
         Also passing on their own: pr/11, pr/18, pr/19, pr/30, pr/41.
+        All 24 checked: 18 pass. **pr/02, 03, 05, 06, 07 fail on their own**
+        (4, 4, 2, 10, 17 errors; all gone by pr/08), exactly as the old
+        archived branches did, so they predate the migration: pieces sit in
+        the wrong edgeless branch (`color-palettes.spec.ts`,
+        `color-picker.ts`, `edge-nodes.spec.ts`, `edgeless-auto-complete.ts`).
+        In the inbox. Worth fixing before the next publish, since upstream
+        merges these one at a time.
   - [ ] GitHub token and CodeRabbit on the fork (Jasper).
   - [ ] Jasper's go; push `working/*` and the published branches; open the
         fork-internal review PRs; delete the remote `pr/00` and `pr/16`.

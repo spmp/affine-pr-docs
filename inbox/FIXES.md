@@ -52,6 +52,16 @@ views), `journal-todo`, `note-ref` (linked notes / references), `selection` (inl
   - `packages/frontend/core/src/modules/code-block-preview-renderer/typst-preview.integration.spec.ts`: 30 s timeout; passes on plain canary, so something in our stack
   - Flaky under load: `share-import-controller.spec.tsx` "retains the original image preview…" (passes alone)
 
+### pr/02-pr/07 don't type-check on their own (found 2026-11-13)
+- Where: each generated branch alone (`yarn typecheck` in a worktree of it); the old branches failed the same way
+- Pri: high (upstream merges them one at a time)
+- Notes: errors disappear at pr/08, so code or tests sit one branch too low or a needed change sits too high.
+  - pr/02, pr/03: `tests/blocksuite/e2e/edgeless/color-palettes.spec.ts` uses `gradientFinal` / `gradientDirection` on a helper's return type that doesn't have them yet
+  - pr/05: `blocksuite/affine/components/src/edgeless-shape-color-picker/color-picker.ts` calls with 2 arguments where 3 are expected
+  - pr/06: the same, plus `edge-nodes.spec.ts`
+  - pr/07: the same, plus `edgeless-auto-complete.ts`
+  - Logs: run `typecheck-branches` again (see process/weekly.md, publishing)
+
 ## Tracker
 
 | ID | Title | Route | Lane | Pri | Status | Ref (999.x / commit / debug file) |
