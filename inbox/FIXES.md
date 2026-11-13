@@ -42,6 +42,129 @@ views), `journal-todo`, `note-ref` (linked notes / references), `selection` (inl
 - Notes / screenshots:
 -->
 
+## Tracker
+
+Triaged 2026-11-13. Groups (A–I) are explained below the table; items in one
+group share a cause or a code area and are worked together. Lanes that differ
+can run in parallel.
+
+| ID | Title | Group | Route | Lane | Pri | Status | Ref |
+|----|-------|-------|-------|------|-----|--------|-----|
+| F-01 | Store: 5 `block.unit.spec.ts` tests fail (nested/deep prop changes don't notify) | A | debug | store | high | triaged | pr/18 `sync-controller.ts`, `reactive/proxy.ts` |
+| F-02 | Table view: new labels / colour changes don't show until redraw | A | debug | db-view | high | triaged | probably F-01 |
+| F-03 | Table view: jumps to top when a row is deleted | A? | debug | db-view | med | triaged | check after F-01 |
+| F-04 | Table view: Enter / Shift+Enter in a cell (newline vs next row) | B | canary check, then fix | db-view | high | triaged | `title/text.ts`, `table/pc/controller/hotkeys.ts` |
+| F-05 | Table view: indent / outdent keys don't work | B | quick | db-view | med | triaged | Tab swallowed in table title cell |
+| F-06 | Table view: triple click needed to edit a cell | B | canary check, then fix | db-view | med | triaged | `table/pc/controller/selection.ts` (+240 lines ours) |
+| F-07 | Deleting a selection that starts at the first character deletes the wrong text (paragraphs and cells) | C | interactive debug | selection | high | triaged | with the known multi-line selection regression |
+| F-08 | Slowdowns: large pages, typing in large database cells | D | interactive debug | perf | med | existing | backlog 999.18 |
+| F-09 | Mobile Journal Todo: drag indicator/lines sometimes missing while dragging a row | E | debug | journal-todo | med | triaged | 999.18 (drag) |
+| F-10 | Frame render options (grid, inner frames, notes) can't be found; add tests | F | question, then quick | edgeless | med | question | only in the edgeless Properties panel (pr/13) |
+| F-11 | Copy several Journal Todo rows: paste into another journal, paste as Markdown todo list | G | 999.x | journal-todo | med | triaged | ties to multi-row selection todo |
+| F-12 | PWA: restore page and scroll position after iOS reloads the app | G | 999.x | pwa | med | triaged | pr/41 |
+| F-13 | Database: how to add a paragraph after a database block | G | question | db-view | low | question | check upstream behaviour first |
+| F-14 | pr/02–pr/07 don't type-check on their own | H | quick (stack) | stack | high | triaged | move hunks between edgeless branches |
+| F-15 | Other failing unit tests: database ancestor promotion, shape-browser ordering, typst timeout | H | quick | stack | med | triaged | pr/19, pr/09/10, ? |
+| F-16 | affine-pr-docs much more complete (Todo columns, Todo→Database, indentation, Kanban promotion and menus, due dates) | I | docs | docs | med | triaged | pages pr-18, pr-19, pr-30 |
+
+### Groups
+
+**A. Reactivity (F-01, F-02, maybe F-03).** Five store unit tests fail with
+values not updating after nested or deep prop changes (e.g. `{color: 'red'}`
+where `'yellow'` is expected). Our store changes are pr/18's
+`sync-controller.ts` and `reactive/proxy.ts`. Database select options and
+their colours are nested props, which fits "labels don't show until redraw".
+A whole-view re-render instead of a fine-grained update could also explain
+the jump to the top on row deletion. The failing tests are already the red
+tests: fix in pr/18, then re-check F-02/F-03 on device.
+
+**B. Table-view keyboard and editing (F-04, F-05, F-06).** Our stack changes
+the table's hotkeys, selection and the title cell. Found so far: in the table
+view the title cell swallows Tab completely (List view lets it through), and
+the table's indent keys are Mod-Shift-. / Mod-Shift-,. Enter and triple-click
+need the canary check first: if upstream behaves the same, it's a separate
+upstream fix; if not, we fix it in pr/19.
+
+**C. Selection and deletion (F-07).** Same area as the parked multi-line
+selection regression and the multi-row selection todo
+(`AFFiNE/.planning/todos/pending/2026-10-01-multi-row-text-selection-in-database-rows.md`).
+Needs a live session: reproduce, capture the selection state, then a test.
+
+**D. Performance (F-08).** Already backlog 999.18. Needs a live session with
+a large page and profiling.
+
+**E. Mobile drag indicator (F-09).** Intermittent, mobile only. Same code
+area as 999.18's slow row dragging.
+
+**F. Frame render options (F-10).** pr/13 added show/hide grid, inner frames
+and notes, but they appear only in the edgeless Properties panel (select the
+frame, … menu → Properties). The frame embed's own toolbar in a page has
+only the size options. Decide where they belong, then add them with e2e tests.
+
+**G. Features (F-11, F-12, F-13).** New behaviour: each gets a short design
+note before code. F-13 may already work upstream in a way that isn't obvious.
+
+**H. Stack hygiene (F-14, F-15).** No user-visible change; needed before the
+next upstream publish.
+
+**I. Docs (F-16).** Independent of code; can run in parallel.
+
+## Open questions
+
+- **F-10:** where should the frame render options be? Options: the frame
+  embed's toolbar in the page (next to size), the frame's own toolbar in
+  edgeless, or both.
+- **F-13:** what do you do today to get a paragraph after a database block,
+  and what would you expect (Enter on the last row? click below? an arrow
+  key)? I'll check what upstream does.
+- **F-11:** when pasting rows into another journal, should they become new
+  rows in that journal's todo table, or references to the same tasks?
+- **F-04:** which behaviour do you want in a table cell: Enter = next row and
+  Shift+Enter = newline (spreadsheet style), or Enter = newline? I'll compare
+  with upstream first.
+
+<!-- Questions Claude raises during triage that need Jasper's decision. Answer inline. -->
+
+## Raw reports (triaged 2026-11-13)
+
+### No drag indicator or drag lines in Journal Todo in mobile when dragging row
+Sometimes, not all the time
+
+### Database table view in desktop, created labels do not show until page redraw, same with change of color
+
+### Database table view in desktop, triple click to get to edit a row
+
+### Database table view in desktop, enter for new row? Shift enter for new line within row - keep it standard! Not sure on Mobile?
+- Inconsistent, behaviour changed at some point so so enter was newline. Previoulsy required shift enter and enter returned the cell to selected rather than editing
+- Check tests against upstream, if this is an introduced error then fix in place, otherwise new PR/fix
+
+### Database, how to get a newline after the block?
+
+### PWA: Can it store page and place on page so that when iOS reaps it and pwa reloads that we're back where we were?
+
+### Database table view indent/non-indent keys not working
+
+### Database table jump to top of table on deletion of row
+
+### Frame resize: I cannot find the options for showing or hiding grid etc. in frame, where where they, where should they be? Lets have tests for this!
+
+### (New feature): Journal/Todo: I need to be able to copy multiple rows so that I can 1) Paste into another journal, and 2) Paste as plain text (markdown todo list)
+
+### Update affine-pr-docs to be much mo
+re complete
+At least:
+- All the Todo list changes - columns etc.
+- Todo to Database 
+- Database indentation
+- To Kanban for promotion
+- Kanban/database promotion menu items
+- Due Date in Journal
+
+### Fixes that may require interactive debug session
+- Slowdowns on large pages
+- Slowdowns in large database cell entry
+- Selecting text that includes the first character and deleting, deletes the unselected text, or more accuratley, it deletes what looks to the user like random text. This is also prevalent in Database cells as well as in normal paragraph.
+
 ### Unit tests failing on the stack (found in the 2026-11-13 migration run)
 - Where: `yarn vitest run` on `working/pr/N-build`; all also fail on the old `pr/N-build`, so not caused by the migration
 - Pri: med
@@ -61,12 +184,3 @@ views), `journal-todo`, `note-ref` (linked notes / references), `selection` (inl
   - pr/06: the same, plus `edge-nodes.spec.ts`
   - pr/07: the same, plus `edgeless-auto-complete.ts`
   - Re-check with `tools/stack-typecheck pr/02-color-palettes …`
-
-## Tracker
-
-| ID | Title | Route | Lane | Pri | Status | Ref (999.x / commit / debug file) |
-|----|-------|-------|------|-----|--------|-----------------------------------|
-
-## Open questions
-
-<!-- Questions Claude raises during triage that need Jasper's decision. Answer inline. -->
