@@ -65,7 +65,7 @@ can run in parallel.
 | F-13 | Database: how to add a paragraph after a database block | G | question | db-view | low | question | check upstream behaviour first |
 | F-14 | pr/02–pr/07 don't type-check on their own | H | quick (stack) | stack | high | done | 4 files moved down from later branches; all 26 published branches type-check alone |
 | F-15 | Other failing unit tests: database ancestor promotion, shape-browser ordering, typst timeout | H | quick | stack | med | built (2 of 3) | shape-browser and typst fixed in pr/10; database cascade: question |
-| F-16 | affine-pr-docs much more complete (Todo columns, Todo→Database, indentation, Kanban promotion and menus, due dates) | I | docs | docs | med | triaged | pages pr-18, pr-19, pr-30 |
+| F-16 | affine-pr-docs much more complete (Todo columns, Todo→Database, indentation, Kanban promotion and menus, due dates) | I | docs | docs | med | built (draft) | new page `guide-tasks.md` (how-to with the real menu labels); pr-19 page already lists the features |
 
 ### Groups
 
@@ -139,6 +139,8 @@ next upstream publish.
   Backspace on a selected row, while editing a cell, on mobile)? In which
   view (Table, List / Journal Todo) and on which page (a long journal)?
   Neither the data path nor the Backspace path reproduces it on desktop.
+- **F-16:** is the new *Guide - tasks and the Journal Todo* page the kind of
+  completeness you meant? It needs screenshots and a check against the app.
 - **F-15 (cascade rule):** a grandchild is marked done, which auto-marks its
   child and parent done; then the parent is set back to todo. Should the
   child (only auto-done) go back to todo while the grandchild (done by hand)
