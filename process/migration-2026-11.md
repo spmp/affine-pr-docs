@@ -96,6 +96,8 @@ plus the tags from step 1.
         `color-picker.ts`, `edge-nodes.spec.ts`, `edgeless-auto-complete.ts`).
         In the inbox. Worth fixing before the next publish, since upstream
         merges these one at a time.
+        **2026-11-13 later: fixed (F-14). All 25 published branches now
+        type-check on their own (`tools/stack-typecheck`).**
   - [ ] GitHub token and CodeRabbit on the fork (Jasper).
   - [ ] Jasper's go; push `working/*` and the published branches; open the
         fork-internal review PRs; delete the remote `pr/00` and `pr/16`.
