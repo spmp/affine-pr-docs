@@ -63,8 +63,8 @@ can run in parallel.
 | F-11 | Copy several Journal Todo rows: paste into another journal, paste as Markdown todo list | G | 999.x | journal-todo | med | triaged | ties to multi-row selection todo |
 | F-12 | PWA: restore page and scroll position after iOS reloads the app | G | 999.x | pwa | med | triaged | pr/41 |
 | F-13 | Database: how to add a paragraph after a database block | G | question | db-view | low | question | check upstream behaviour first |
-| F-14 | pr/02–pr/07 don't type-check on their own | H | quick (stack) | stack | high | triaged | move hunks between edgeless branches |
-| F-15 | Other failing unit tests: database ancestor promotion, shape-browser ordering, typst timeout | H | quick | stack | med | triaged | pr/19, pr/09/10, ? |
+| F-14 | pr/02–pr/07 don't type-check on their own | H | quick (stack) | stack | high | done | 4 files moved down from later branches; all 26 published branches type-check alone |
+| F-15 | Other failing unit tests: database ancestor promotion, shape-browser ordering, typst timeout | H | quick | stack | med | built (2 of 3) | shape-browser and typst fixed in pr/10; database cascade: question |
 | F-16 | affine-pr-docs much more complete (Todo columns, Todo→Database, indentation, Kanban promotion and menus, due dates) | I | docs | docs | med | triaged | pages pr-18, pr-19, pr-30 |
 
 ### Groups
@@ -121,7 +121,14 @@ only the size options. Decide where they belong, then add them with e2e tests.
 **G. Features (F-11, F-12, F-13).** New behaviour: each gets a short design
 note before code. F-13 may already work upstream in a way that isn't obvious.
 
-**H. Stack hygiene (F-14, F-15).** No user-visible change; needed before the
+**H. Stack hygiene (F-14, F-15).** *Update 2026-11-13: F-14 done. F-15:
+the shape-browser test used a stale fake `this` and an outdated list; the
+typst test's bare Vite server crawled the repo's .html files into the
+playground and pr/10's generated stencil tables (~4.7 M lines of TS), taking
+30 s on its own: both fixed in pr/10. Also removed 20 test-failure
+screenshots committed into pr/18, pr/19, pr/30 and moved pr/19's
+`.gitignore`/rebuild-script changes to N-build. The database cascade test
+needs a decision (Open questions).* No user-visible change; needed before the
 next upstream publish.
 
 **I. Docs (F-16).** Independent of code; can run in parallel.
@@ -132,6 +139,11 @@ next upstream publish.
   Backspace on a selected row, while editing a cell, on mobile)? In which
   view (Table, List / Journal Todo) and on which page (a long journal)?
   Neither the data path nor the Backspace path reproduces it on desktop.
+- **F-15 (cascade rule):** a grandchild is marked done, which auto-marks its
+  child and parent done; then the parent is set back to todo. Should the
+  child (only auto-done) go back to todo while the grandchild (done by hand)
+  stays done? The test `promotes ancestors from descendant done and cascades
+  todo…` says yes; the code leaves the child done.
 - **F-05:** in a table, should Tab indent the row (like the List view) rather
   than move to the next cell (spreadsheet style, what it does now)? Indent is
   Mod-Shift-. / Mod-Shift-, in every view now.
