@@ -52,10 +52,10 @@ can run in parallel.
 |----|-------|-------|-------|------|-----|--------|-----|
 | F-01 | Store: 5 `block.unit.spec.ts` tests fail (nested/deep prop changes don't notify) | A | fix | store | high | built | pr/18 `fix(store): update prop signals synchronously again…` |
 | F-02 | Table view: new labels / colour changes don't show until redraw | A | fix | db-view | high | built | pr/19 `fix(database): table cells show new select labels…`; test `database-select-tag-render.spec.ts` |
-| F-03 | Table view: deleting rows jumps to the top of the database | A? | interactive debug | db-view | med | live session | plain table, 1 or 3 rows, Backspace or menu: scroll kept (guard tests); ask: plain table or Journal Todo/reference? |
+| F-03 | Table view: deleting rows jumps to the top of the database | A | upstream fix | db-view | med | built | `working/fix/inline-container-selection`: found with the live caret probe; test `inline-container-selection.spec.ts` |
 | F-04 | Table view: Enter / Shift+Enter in a cell (newline vs next row) | B | upstream fix | db-view | high | built | `working/fix/table-title-enter` (new upstream fix); test `database-table-cell-keys.spec.ts` |
 | F-05 | Table view: indent / outdent keys don't work | B | fix | db-view | med | built | pr/19 `fix(database): Mod-Shift-. / Mod-Shift-, indent…`; tests `database-table-indent-keys`, `list-indent-shortcut` |
-| F-06 | Table view: three clicks to edit a text cell | B | interactive debug | db-view | med | live session | 2 clicks headless, as canary; needs real device |
+| F-06 | Table view: three clicks to edit a text cell | B | interactive debug | db-view | med | live session | not in a fresh table (2026-11-14 probe): run `tools/live/focus-probe.js` in the table where it happens |
 | F-07 | Deleting a selection that starts at the first character deletes the wrong text (paragraphs and cells) | C | interactive debug | selection | high | triaged | with the known multi-line selection regression |
 | F-08 | Slowdowns: large pages, typing in large database cells | D | interactive debug | perf | med | existing | backlog 999.18 |
 | F-09 | Mobile Journal Todo: drag indicator/lines sometimes missing while dragging a row | E | debug | journal-todo | med | triaged | 999.18 (drag) |
@@ -135,9 +135,6 @@ next upstream publish.
 
 ## Open questions
 
-- **F-03:** does the jump happen in an ordinary table, or only in the
-  Journal Todo or another referenced table? (For the live session.)
-
 - **F-16:** is the new *Guide - tasks and the Journal Todo* page the kind of
   completeness you meant? It needs screenshots and a check against the app.
 - **F-04 / F-05 device check:** Enter and Shift+Enter in a table title cell;
@@ -159,6 +156,14 @@ next upstream publish.
   with upstream first.
 
 <!-- Questions Claude raises during triage that need Jasper's decision. Answer inline. -->
+
+## Flaky tests (not caused by recent changes)
+
+- `blocksuite/framework/store/src/__tests__/parent-lookup.unit.spec.ts` "repeated
+  lookups do not walk the whole document": spies on global Yjs methods, so it
+  can count calls from other tests running alongside; passes on its own.
+- `share-import-controller.spec.tsx` "retains the original image preview…":
+  fails only under load.
 
 ## F-11 design (copy rows)
 

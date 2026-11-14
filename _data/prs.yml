@@ -33,7 +33,7 @@ prs:
   "14": { title: "PNG metadata", tagline: "Exported PNGs carry the frame; drop one back in to edit it again.", size: "+1.6k", shot: "Export a frame as PNG, then drop the PNG back to get an editable frame" }
   "15": { title: "Markdown/HTML export-import", tagline: "Frames survive a round trip through Markdown and HTML.", size: "+1.6k", shot: "A page with a frame embed, exported to Markdown and re-imported" }
   "17": { title: "Middle-click paste guard", tagline: "A regression test so the Linux middle-click paste setting keeps working.", size: "+57", alone: true }
-  "18": { title: "Reusable blocks", alone: true, tagline: "Show a note or table from any page in place, live and editable.", size: "+11k", shot: "The same note shown on two pages, edited on one, updated on the other" }
+  "18": { title: "Reusable blocks", tagline: "Show a note or table from any page in place, live and editable.", size: "+11k", shot: "The same note shown on two pages, edited on one, updated on the other" }
   "18a": { title: "Note settings in the Properties panel", tagline: "Name, background, border and shadow for notes, in the edgeless Properties panel.", size: "+112", status: "Fork review only" }
   "19": { title: "To-do lists, databases and the Journal Todo", tagline: "Tasks with hierarchy, a List view that types like a to-do list, and one task table on every journal page.", size: "+32.7k", shot: "A nested to-do list and the same tasks as a table with hierarchy" }
   "30": { title: "Mobile keyboard toolbar", tagline: "The toolbar sits on the iOS keyboard, with database and reference tools.", size: "+3.7k", shot: "IPhone screenshot, keyboard open, toolbar sitting on it" }
