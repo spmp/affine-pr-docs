@@ -26,6 +26,7 @@ stack:
   - { working: working/fix/store-parent-index, publish: pr/50-store-parent-index, base: canary, upstream: 15845 }
   - { working: working/fix/toast-container, publish: pr/51-toast-container, base: canary, upstream: 15846 }
   - { working: working/fix/table-title-enter, publish: fix/table-title-enter, base: canary }   # F-04
+  - { working: working/fix/database-escape-to-block, publish: fix/database-escape-to-block, base: canary }   # F-13
 
   # Edgeless. pr/10 and pr/11 sit last so 12-15 stay under CodeRabbit's 300-file limit.
   - { working: working/pr/02-color-palettes, publish: pr/02-color-palettes, base: canary, upstream: 15825 }

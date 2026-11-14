@@ -52,19 +52,19 @@ can run in parallel.
 |----|-------|-------|-------|------|-----|--------|-----|
 | F-01 | Store: 5 `block.unit.spec.ts` tests fail (nested/deep prop changes don't notify) | A | fix | store | high | built | pr/18 `fix(store): update prop signals synchronously again…` |
 | F-02 | Table view: new labels / colour changes don't show until redraw | A | fix | db-view | high | built | pr/19 `fix(database): table cells show new select labels…`; test `database-select-tag-render.spec.ts` |
-| F-03 | Table view: jumps to top when a row is deleted | A? | question | db-view | med | question | doesn't reproduce headless; guard test `database-row-delete-scroll.spec.ts` |
+| F-03 | Table view: deleting rows jumps to the top of the database | A? | interactive debug | db-view | med | live session | plain table, 1 or 3 rows, Backspace or menu: scroll kept (guard tests); ask: plain table or Journal Todo/reference? |
 | F-04 | Table view: Enter / Shift+Enter in a cell (newline vs next row) | B | upstream fix | db-view | high | built | `working/fix/table-title-enter` (new upstream fix); test `database-table-cell-keys.spec.ts` |
 | F-05 | Table view: indent / outdent keys don't work | B | fix | db-view | med | built | pr/19 `fix(database): Mod-Shift-. / Mod-Shift-, indent…`; tests `database-table-indent-keys`, `list-indent-shortcut` |
-| F-06 | Table view: triple click needed to edit a cell | B | question | db-view | med | question | doesn't reproduce headless (2 clicks, as canary); guard test `database-table-click-to-edit.spec.ts` |
+| F-06 | Table view: three clicks to edit a text cell | B | interactive debug | db-view | med | live session | 2 clicks headless, as canary; needs real device |
 | F-07 | Deleting a selection that starts at the first character deletes the wrong text (paragraphs and cells) | C | interactive debug | selection | high | triaged | with the known multi-line selection regression |
 | F-08 | Slowdowns: large pages, typing in large database cells | D | interactive debug | perf | med | existing | backlog 999.18 |
 | F-09 | Mobile Journal Todo: drag indicator/lines sometimes missing while dragging a row | E | debug | journal-todo | med | triaged | 999.18 (drag) |
-| F-10 | Frame render options (grid, inner frames, notes) can't be found; add tests | F | question, then quick | edgeless | med | question | only in the edgeless Properties panel (pr/13) |
-| F-11 | Copy several Journal Todo rows: paste into another journal, paste as Markdown todo list | G | 999.x | journal-todo | med | triaged | ties to multi-row selection todo |
+| F-10 | Frame render options (grid, inner frames, notes) can't be found; add tests | F | feature | edgeless | med | built | pr/13: Show Grid/Frames/Notes in both Frame size menus; tests in `frame-sizing.spec.ts` |
+| F-11 | Copy several Journal Todo rows: paste into another journal, paste as Markdown todo list | G | 999.x | journal-todo | med | design | see *F-11 design* below |
 | F-12 | PWA: restore page and scroll position after iOS reloads the app | G | 999.x | pwa | med | triaged | pr/41 |
-| F-13 | Database: how to add a paragraph after a database block | G | question | db-view | low | question | check upstream behaviour first |
+| F-13 | Database: how to add a paragraph after a database block | G | upstream fix | db-view | low | built | `working/fix/database-escape-to-block`: Escape ×3 from a cell selects the block, Enter adds a paragraph |
 | F-14 | pr/02–pr/07 don't type-check on their own | H | quick (stack) | stack | high | done | 4 files moved down from later branches; all 26 published branches type-check alone |
-| F-15 | Other failing unit tests: database ancestor promotion, shape-browser ordering, typst timeout | H | quick | stack | med | built (2 of 3) | shape-browser and typst fixed in pr/10; database cascade: question |
+| F-15 | Other failing unit tests: database ancestor promotion, shape-browser ordering, typst timeout | H | fix | stack | med | built | shape-browser + typst in pr/10; cascade rule in pr/19 (child reverts, confirmed 2026-11-14) |
 | F-16 | affine-pr-docs much more complete (Todo columns, Todo→Database, indentation, Kanban promotion and menus, due dates) | I | docs | docs | med | built (draft) | new page `guide-tasks.md` (how-to with the real menu labels); pr-19 page already lists the features |
 
 ### Groups
@@ -135,23 +135,11 @@ next upstream publish.
 
 ## Open questions
 
-- **F-03:** how exactly do you delete the row when it jumps (row menu,
-  Backspace on a selected row, while editing a cell, on mobile)? In which
-  view (Table, List / Journal Todo) and on which page (a long journal)?
-  Neither the data path nor the Backspace path reproduces it on desktop.
+- **F-03:** does the jump happen in an ordinary table, or only in the
+  Journal Todo or another referenced table? (For the live session.)
+
 - **F-16:** is the new *Guide - tasks and the Journal Todo* page the kind of
   completeness you meant? It needs screenshots and a check against the app.
-- **F-15 (cascade rule):** a grandchild is marked done, which auto-marks its
-  child and parent done; then the parent is set back to todo. Should the
-  child (only auto-done) go back to todo while the grandchild (done by hand)
-  stays done? The test `promotes ancestors from descendant done and cascades
-  todo…` says yes; the code leaves the child done.
-- **F-05:** in a table, should Tab indent the row (like the List view) rather
-  than move to the next cell (spreadsheet style, what it does now)? Indent is
-  Mod-Shift-. / Mod-Shift-, in every view now.
-- **F-06:** where does it take three clicks: which view (Table, List / Journal
-  Todo), which column, desktop or mobile, and what was selected or being
-  edited before? Two clicks (select, then edit) is upstream's behaviour too.
 - **F-04 / F-05 device check:** Enter and Shift+Enter in a table title cell;
   Mod-Shift-. / Mod-Shift-, in a table, the Journal Todo and a bulleted list.
 - **F-01 / F-02 device check:** labels and colours in a table; and inline
@@ -171,6 +159,24 @@ next upstream publish.
   with upstream first.
 
 <!-- Questions Claude raises during triage that need Jasper's decision. Answer inline. -->
+
+## F-11 design (copy rows)
+
+Copying selected rows (List view / Journal Todo, and table rows) puts three
+formats on the clipboard, so each target picks the one it understands:
+
+- **AFFiNE:** the rows as to-do list items, nesting kept. Pasted into a
+  page they become a to-do list; pasted into another journal's Journal Todo
+  (or any task table) they become **new rows** (new tasks, not references),
+  keeping status, hierarchy and the optional fields.
+- **text/plain, Markdown:** `- [ ] task` / `- [x] done task`, two spaces of
+  indent per level. Works in any text editor or Markdown app.
+- **text/html:** a nested `<ul>` with `<input type="checkbox" checked>`
+  items, for rich-text apps.
+
+Selecting several rows first needs row multi-select in the List view (the
+pending todo on multi-row selection). Answers 2026-11-14: new rows, not
+references.
 
 ## Raw reports (triaged 2026-11-13)
 

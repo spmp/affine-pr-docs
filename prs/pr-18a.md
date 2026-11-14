@@ -7,7 +7,7 @@ permalink: /pr-18a/
 # pr/18a: Note settings in the Properties panel
 {: .no_toc }
 
-Branch `pr/18a-note-properties-panel` · base `pr/13 + pr/18` · 2 files, +114 −2 · 275 files against canary
+Branch `pr/18a-note-properties-panel` · base `pr/13 + pr/18` · 2 files, +114 −2 · 277 files against canary
 {: .fs-3 .text-grey-dk-000 }
 
 {% include pr-hero.html id="18a" %}
