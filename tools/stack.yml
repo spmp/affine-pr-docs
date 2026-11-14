@@ -25,6 +25,7 @@ stack:
   - { working: working/fix/editor-setting-fallback, publish: fix/editor-setting-fallback, base: canary, status: tentative }   # from pr/00 d92d4c28c6; canary check pending
   - { working: working/fix/store-parent-index, publish: pr/50-store-parent-index, base: canary, upstream: 15845 }
   - { working: working/fix/toast-container, publish: pr/51-toast-container, base: canary, upstream: 15846 }
+  - { working: working/fix/table-title-enter, publish: fix/table-title-enter, base: canary }   # F-04
 
   # Edgeless. pr/10 and pr/11 sit last so 12-15 stay under CodeRabbit's 300-file limit.
   - { working: working/pr/02-color-palettes, publish: pr/02-color-palettes, base: canary, upstream: 15825 }
@@ -46,7 +47,7 @@ stack:
   # Documents, databases and the Journal Todo.
   - { working: working/pr/18-reusable-blocks, publish: pr/18-reusable-blocks, base: canary, upstream: 15839 }
   - { working: working/pr/18a-note-properties-panel, publish: pr/18a-note-properties-panel, base: [pr/13-frame-resize, pr/18-reusable-blocks], status: tentative }   # two bases (pr/13 also edits properties-modal.ts); open upstream once 13 and 18 merge
-  - { working: working/pr/19-todo-database-integration-in-journal, publish: pr/19-todo-database-integration-in-journal, base: pr/18-reusable-blocks, upstream: 15840 }
+  - { working: working/pr/19-todo-database-integration-in-journal, publish: pr/19-todo-database-integration-in-journal, base: [pr/18-reusable-blocks, fix/table-title-enter], upstream: 15840 }   # text.ts sits next to F-04's fix
 
   # Mobile.
   - { working: working/pr/30-mobile-keyboard-toolbar, publish: pr/30-mobile-keyboard-toolbar, base: pr/19-todo-database-integration-in-journal, upstream: 15841 }

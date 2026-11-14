@@ -53,9 +53,9 @@ can run in parallel.
 | F-01 | Store: 5 `block.unit.spec.ts` tests fail (nested/deep prop changes don't notify) | A | fix | store | high | built | pr/18 `fix(store): update prop signals synchronously again…` |
 | F-02 | Table view: new labels / colour changes don't show until redraw | A | fix | db-view | high | built | pr/19 `fix(database): table cells show new select labels…`; test `database-select-tag-render.spec.ts` |
 | F-03 | Table view: jumps to top when a row is deleted | A? | question | db-view | med | question | doesn't reproduce headless; guard test `database-row-delete-scroll.spec.ts` |
-| F-04 | Table view: Enter / Shift+Enter in a cell (newline vs next row) | B | canary check, then fix | db-view | high | triaged | `title/text.ts`, `table/pc/controller/hotkeys.ts` |
-| F-05 | Table view: indent / outdent keys don't work | B | quick | db-view | med | triaged | Tab swallowed in table title cell |
-| F-06 | Table view: triple click needed to edit a cell | B | canary check, then fix | db-view | med | triaged | `table/pc/controller/selection.ts` (+240 lines ours) |
+| F-04 | Table view: Enter / Shift+Enter in a cell (newline vs next row) | B | upstream fix | db-view | high | built | `working/fix/table-title-enter` (new upstream fix); test `database-table-cell-keys.spec.ts` |
+| F-05 | Table view: indent / outdent keys don't work | B | fix | db-view | med | built | pr/19 `fix(database): Mod-Shift-. / Mod-Shift-, indent…`; tests `database-table-indent-keys`, `list-indent-shortcut` |
+| F-06 | Table view: triple click needed to edit a cell | B | question | db-view | med | question | doesn't reproduce headless (2 clicks, as canary); guard test `database-table-click-to-edit.spec.ts` |
 | F-07 | Deleting a selection that starts at the first character deletes the wrong text (paragraphs and cells) | C | interactive debug | selection | high | triaged | with the known multi-line selection regression |
 | F-08 | Slowdowns: large pages, typing in large database cells | D | interactive debug | perf | med | existing | backlog 999.18 |
 | F-09 | Mobile Journal Todo: drag indicator/lines sometimes missing while dragging a row | E | debug | journal-todo | med | triaged | 999.18 (drag) |
@@ -85,7 +85,17 @@ A whole-view re-render instead of a fine-grained update could also explain
 the jump to the top on row deletion. The failing tests are already the red
 tests: fix in pr/18, then re-check F-02/F-03 on device.
 
-**B. Table-view keyboard and editing (F-04, F-05, F-06).** Our stack changes
+**B. Table-view keyboard and editing (F-04, F-05, F-06).** *Update
+2026-11-13: F-04: upstream's title cell stops Enter from reaching the
+table's own hotkey (which means "leave the cell and move down"), so Enter
+inserted a newline; fixed on a new upstream-fix branch
+`working/fix/table-title-enter` (published `fix/table-title-enter`). Shift+Enter
+stays the newline. F-05: our indent/outdent shortcuts were bound as
+`Mod-Shift-Period`/`Mod-Shift-Comma`, names the keymap never produces, so
+they never fired (table, List view and list blocks); now `Mod-Shift-.` /
+`Mod-Shift-,`, and they also work while a title is being edited. Tab in a
+table still moves to the next cell. F-06 doesn't reproduce: need steps.*
+Original notes: Our stack changes
 the table's hotkeys, selection and the title cell. Found so far: in the table
 view the title cell swallows Tab completely (List view lets it through), and
 the table's indent keys are Mod-Shift-. / Mod-Shift-,. Enter and triple-click
@@ -122,6 +132,14 @@ next upstream publish.
   Backspace on a selected row, while editing a cell, on mobile)? In which
   view (Table, List / Journal Todo) and on which page (a long journal)?
   Neither the data path nor the Backspace path reproduces it on desktop.
+- **F-05:** in a table, should Tab indent the row (like the List view) rather
+  than move to the next cell (spreadsheet style, what it does now)? Indent is
+  Mod-Shift-. / Mod-Shift-, in every view now.
+- **F-06:** where does it take three clicks: which view (Table, List / Journal
+  Todo), which column, desktop or mobile, and what was selected or being
+  edited before? Two clicks (select, then edit) is upstream's behaviour too.
+- **F-04 / F-05 device check:** Enter and Shift+Enter in a table title cell;
+  Mod-Shift-. / Mod-Shift-, in a table, the Journal Todo and a bulleted list.
 - **F-01 / F-02 device check:** labels and colours in a table; and inline
   equations on a page that also has a reference (the case the old
   microtask deferral was added for).
