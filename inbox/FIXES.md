@@ -50,9 +50,9 @@ can run in parallel.
 
 | ID | Title | Group | Route | Lane | Pri | Status | Ref |
 |----|-------|-------|-------|------|-----|--------|-----|
-| F-01 | Store: 5 `block.unit.spec.ts` tests fail (nested/deep prop changes don't notify) | A | debug | store | high | triaged | pr/18 `sync-controller.ts`, `reactive/proxy.ts` |
-| F-02 | Table view: new labels / colour changes don't show until redraw | A | debug | db-view | high | triaged | probably F-01 |
-| F-03 | Table view: jumps to top when a row is deleted | A? | debug | db-view | med | triaged | check after F-01 |
+| F-01 | Store: 5 `block.unit.spec.ts` tests fail (nested/deep prop changes don't notify) | A | fix | store | high | built | pr/18 `fix(store): update prop signals synchronously again…` |
+| F-02 | Table view: new labels / colour changes don't show until redraw | A | fix | db-view | high | built | pr/19 `fix(database): table cells show new select labels…`; test `database-select-tag-render.spec.ts` |
+| F-03 | Table view: jumps to top when a row is deleted | A? | question | db-view | med | question | doesn't reproduce headless; guard test `database-row-delete-scroll.spec.ts` |
 | F-04 | Table view: Enter / Shift+Enter in a cell (newline vs next row) | B | canary check, then fix | db-view | high | triaged | `title/text.ts`, `table/pc/controller/hotkeys.ts` |
 | F-05 | Table view: indent / outdent keys don't work | B | quick | db-view | med | triaged | Tab swallowed in table title cell |
 | F-06 | Table view: triple click needed to edit a cell | B | canary check, then fix | db-view | med | triaged | `table/pc/controller/selection.ts` (+240 lines ours) |
@@ -69,7 +69,14 @@ can run in parallel.
 
 ### Groups
 
-**A. Reactivity (F-01, F-02, maybe F-03).** Five store unit tests fail with
+**A. Reactivity (F-01, F-02, maybe F-03).** *Update 2026-11-13: F-01 and
+F-02 turned out to be separate. F-01: pr/18 deferred every prop-signal write
+to a microtask; now synchronous again, under each view's mutex (fixed in
+pr/18). F-02: pr/19's column lookup read the raw `columns` prop, so cells had
+no reactive dependency on it (fixed in pr/19, with an integration test that
+fails without the fix; passes on canary and pr/18). F-03 doesn't reproduce
+in a 60-row desktop table, by data or by the Backspace path: need your steps.*
+Original notes: Five store unit tests fail with
 values not updating after nested or deep prop changes (e.g. `{color: 'red'}`
 where `'yellow'` is expected). Our store changes are pr/18's
 `sync-controller.ts` and `reactive/proxy.ts`. Database select options and
@@ -110,6 +117,14 @@ next upstream publish.
 **I. Docs (F-16).** Independent of code; can run in parallel.
 
 ## Open questions
+
+- **F-03:** how exactly do you delete the row when it jumps (row menu,
+  Backspace on a selected row, while editing a cell, on mobile)? In which
+  view (Table, List / Journal Todo) and on which page (a long journal)?
+  Neither the data path nor the Backspace path reproduces it on desktop.
+- **F-01 / F-02 device check:** labels and colours in a table; and inline
+  equations on a page that also has a reference (the case the old
+  microtask deferral was added for).
 
 - **F-10:** where should the frame render options be? Options: the frame
   embed's toolbar in the page (next to size), the frame's own toolbar in
