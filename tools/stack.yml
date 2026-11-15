@@ -28,6 +28,7 @@ stack:
   - { working: working/fix/table-title-enter, publish: fix/table-title-enter, base: canary }   # F-04
   - { working: working/fix/database-escape-to-block, publish: fix/database-escape-to-block, base: canary }   # F-13
   - { working: working/fix/inline-container-selection, publish: fix/inline-container-selection, base: canary }   # F-03
+  - { working: working/fix/keep-editor-focus, publish: fix/keep-editor-focus, base: canary }   # F-06
 
   # Edgeless. pr/10 and pr/11 sit last so 12-15 stay under CodeRabbit's 300-file limit.
   - { working: working/pr/02-color-palettes, publish: pr/02-color-palettes, base: canary, upstream: 15825 }

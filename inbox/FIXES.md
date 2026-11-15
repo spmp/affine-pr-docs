@@ -55,7 +55,7 @@ can run in parallel.
 | F-03 | Table view: deleting rows jumps to the top of the database | A | upstream fix | db-view | med | built | `working/fix/inline-container-selection`: found with the live caret probe; test `inline-container-selection.spec.ts` |
 | F-04 | Table view: Enter / Shift+Enter in a cell (newline vs next row) | B | upstream fix | db-view | high | built | `working/fix/table-title-enter` (new upstream fix); test `database-table-cell-keys.spec.ts` |
 | F-05 | Table view: indent / outdent keys don't work | B | fix | db-view | med | built | pr/19 `fix(database): Mod-Shift-. / Mod-Shift-, indent…`; tests `database-table-indent-keys`, `list-indent-shortcut` |
-| F-06 | Table view: three clicks to edit a text cell | B | interactive debug | db-view | med | live session | not in a fresh table (2026-11-14 probe): run `tools/live/focus-probe.js` in the table where it happens |
+| F-06 | Table view: three clicks to edit a text cell | B | upstream fix | db-view | med | built | `working/fix/keep-editor-focus`: a late selection update took focus out of the cell being edited (traced live on a long page with references); test `database-cell-keeps-focus.spec.ts` |
 | F-07 | Deleting a selection that starts at the first character deletes the wrong text (paragraphs and cells) | C | interactive debug | selection | high | triaged | with the known multi-line selection regression |
 | F-08 | Slowdowns: large pages, typing in large database cells | D | interactive debug | perf | med | existing | backlog 999.18 |
 | F-09 | Mobile Journal Todo: drag indicator/lines sometimes missing while dragging a row | E | debug | journal-todo | med | triaged | 999.18 (drag) |
