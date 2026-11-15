@@ -159,6 +159,15 @@ next upstream publish.
 
 ## Flaky tests (not caused by recent changes)
 
+- Integration (BlockSuite) baseline, 2026-11-15: with the default config,
+  `edgeless/last-props.spec.ts` "shapes" and four `mobile/*` files fail on
+  both the old (pre-migration) and current stack; the mobile files belong to
+  `vitest.mobile.config.ts`. With that config, only
+  `keyboard-enter-focus-loss.spec.ts` "pressing Enter on an empty root-level
+  row…" fails (also on the old stack). `slash-menu-touch.spec.ts` can fail
+  in a full run but passes on its own. Parallel full runs make focus tests
+  interfere: use `--no-file-parallelism`.
+
 - `blocksuite/framework/store/src/__tests__/parent-lookup.unit.spec.ts` "repeated
   lookups do not walk the whole document": spies on global Yjs methods, so it
   can count calls from other tests running alongside; passes on its own.
