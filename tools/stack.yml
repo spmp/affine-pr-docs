@@ -51,6 +51,7 @@ stack:
   - { working: working/pr/18-reusable-blocks, publish: pr/18-reusable-blocks, base: fix/inline-container-selection, upstream: 15839 }   # event.ts sits next to F-03's fix
   - { working: working/pr/18a-note-properties-panel, publish: pr/18a-note-properties-panel, base: [pr/13-frame-resize, pr/18-reusable-blocks], status: tentative }   # two bases (pr/13 also edits properties-modal.ts); open upstream once 13 and 18 merge
   - { working: working/pr/19-todo-database-integration-in-journal, publish: pr/19-todo-database-integration-in-journal, base: [pr/18-reusable-blocks, fix/table-title-enter], upstream: 15840 }   # text.ts sits next to F-04's fix
+  - { working: working/pr/21-database-enter-new-row, publish: pr/21-database-enter-new-row, base: pr/19-todo-database-integration-in-journal }   # F-04 setting
 
   # Mobile.
   - { working: working/pr/30-mobile-keyboard-toolbar, publish: pr/30-mobile-keyboard-toolbar, base: pr/19-todo-database-integration-in-journal, upstream: 15841 }

@@ -7,7 +7,7 @@ groups:
   - name: Edgeless canvas
     prs: ["02", "03", "05", "06", "07", "08", "09", "12", "13", "14", "15", "10", "11", "17"]
   - name: Documents, databases and the Journal Todo
-    prs: ["18", "18a", "19"]
+    prs: ["18", "18a", "19", "21"]
   - name: Mobile
     prs: ["30", "31"]
   - name: Server and PWA
@@ -36,6 +36,7 @@ prs:
   "18": { title: "Reusable blocks", tagline: "Show a note or table from any page in place, live and editable.", size: "+11k", shot: "The same note shown on two pages, edited on one, updated on the other" }
   "18a": { title: "Note settings in the Properties panel", tagline: "Name, background, border and shadow for notes, in the edgeless Properties panel.", size: "+112", status: "Fork review only" }
   "19": { title: "To-do lists, databases and the Journal Todo", tagline: "Tasks with hierarchy, a List view that types like a to-do list, and one task table on every journal page.", size: "+32.7k", shot: "A nested to-do list and the same tasks as a table with hierarchy" }
+  "21": { title: "Enter adds a new row", tagline: "A setting: Enter in a table cell adds the next row, Shift+Enter is a new line.", size: "17 files" }
   "30": { title: "Mobile keyboard toolbar", tagline: "The toolbar sits on the iOS keyboard, with database and reference tools.", size: "+3.7k", shot: "IPhone screenshot, keyboard open, toolbar sitting on it" }
   "31": { title: "Mobile settings", tagline: "Open the full settings from a phone.", size: "+292", alone: true, shot: "Mobile settings with the new entry, and the full settings open on a phone" }
   "40": { title: "Server compression", tagline: "Compressed assets and API responses for self-hosted servers.", size: "+34", alone: true }
