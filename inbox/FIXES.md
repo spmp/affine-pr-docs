@@ -60,7 +60,7 @@ can run in parallel.
 | F-08 | Slowdowns: large pages, typing in large database cells | D | interactive debug | perf | med | existing | backlog 999.18 |
 | F-09 | Mobile Journal Todo: drag indicator/lines sometimes missing while dragging a row | E | debug | journal-todo | med | triaged | 999.18 (drag) |
 | F-10 | Frame render options (grid, inner frames, notes) can't be found; add tests | F | feature | edgeless | med | built | pr/13: Show Grid/Frames/Notes in both Frame size menus; tests in `frame-sizing.spec.ts` |
-| F-11 | Copy several Journal Todo rows: paste into another journal, paste as Markdown todo list | G | 999.x | journal-todo | med | design | see *F-11 design* below |
+| F-11 | Copy several Journal Todo rows: paste into another journal, paste as Markdown todo list | G | 999.x | journal-todo | med | part built | pr/22: table rows done (3 formats + paste as new rows); List view / Journal Todo needs row multi-select first. See *F-11 design* below |
 | F-12 | PWA: restore page and scroll position after iOS reloads the app | G | 999.x | pwa | med | triaged | pr/41 |
 | F-13 | Database: how to add a paragraph after a database block | G | upstream fix | db-view | low | built | `working/fix/database-escape-to-block`: Escape ×3 from a cell selects the block, Enter adds a paragraph |
 | F-14 | pr/02–pr/07 don't type-check on their own | H | quick (stack) | stack | high | done | 4 files moved down from later branches; all 26 published branches type-check alone |
@@ -191,6 +191,13 @@ formats on the clipboard, so each target picks the one it understands:
 Selecting several rows first needs row multi-select in the List view (the
 pending todo on multi-row selection). Answers 2026-11-14: new rows, not
 references.
+
+*2026-11-15:* tables done in pr/22 (`working/pr/22-copy-rows`). Pasting into
+a page uses an AFFiNE block snapshot rather than the HTML, because the HTML
+and Markdown importers drop the ticks. Paste into a table inserts after the
+last selected row; levels are relative to that row. Still to do: List view
+(Journal Todo) row multi-select, then the same copy and paste there via the
+shared `rows-clipboard.ts` helpers.
 
 ## Raw reports (triaged 2026-11-13)
 
