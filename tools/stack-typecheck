@@ -30,6 +30,15 @@ for b in "$@"; do
   if ! (cd "$W" && yarn install > "$log" 2>&1); then echo "$b: yarn install failed (see $log)"; fail=1; continue; fi
   (cd "$W" && NODE_OPTIONS=--max-old-space-size=14384 yarn typecheck >> "$log" 2>&1)
   n=$(grep -c 'error TS' "$log")
+  if [ "$n" != 0 ]; then
+    # `tsc --build` reuses the previous branch's build info and can report
+    # errors that aren't there (seen 2026-11-15: a field added by another
+    # base branch "missing"). Confirm with a clean build before failing.
+    find "$W" -path '*/node_modules' -prune -o -name '*.tsbuildinfo' -print | xargs -r rm -f
+    echo "--- clean rebuild after $n errors ---" >> "$log"
+    (cd "$W" && NODE_OPTIONS=--max-old-space-size=14384 yarn typecheck >> "$log" 2>&1)
+    n=$(sed -n '/--- clean rebuild after/,$p' "$log" | grep -c 'error TS')
+  fi
   if [ "$n" = 0 ]; then echo "$b: ok"; else echo "$b: $n errors (see $log)"; fail=1; fi
 done
 exit $fail

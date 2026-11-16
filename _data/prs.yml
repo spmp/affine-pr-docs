@@ -37,7 +37,7 @@ prs:
   "18a": { title: "Note settings in the Properties panel", tagline: "Name, background, border and shadow for notes, in the edgeless Properties panel.", size: "+112", status: "Fork review only" }
   "19": { title: "To-do lists, databases and the Journal Todo", tagline: "Tasks with hierarchy, a List view that types like a to-do list, and one task table on every journal page.", size: "+32.7k", shot: "A nested to-do list and the same tasks as a table with hierarchy" }
   "21": { title: "Enter adds a new row", tagline: "A setting: Enter in a table cell adds the next row, Shift+Enter is a new line.", size: "17 files" }
-  "22": { title: "Copy rows", tagline: "Copy table rows: paste as new rows in a table, a to-do list in a page, or a Markdown task list elsewhere.", size: "4 files" }
+  "22": { title: "Select and copy rows", tagline: "Select rows in tables and the Journal Todo; paste them as new rows, a to-do list in a page, or a Markdown task list elsewhere.", size: "13 files" }
   "30": { title: "Mobile keyboard toolbar", tagline: "The toolbar sits on the iOS keyboard, with database and reference tools.", size: "+3.7k", shot: "IPhone screenshot, keyboard open, toolbar sitting on it" }
   "31": { title: "Mobile settings", tagline: "Open the full settings from a phone.", size: "+292", alone: true, shot: "Mobile settings with the new entry, and the full settings open on a phone" }
   "40": { title: "Server compression", tagline: "Compressed assets and API responses for self-hosted servers.", size: "+34", alone: true }

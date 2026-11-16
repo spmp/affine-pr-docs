@@ -60,7 +60,7 @@ can run in parallel.
 | F-08 | Slowdowns: large pages, typing in large database cells | D | interactive debug | perf | med | existing | backlog 999.18 |
 | F-09 | Mobile Journal Todo: drag indicator/lines sometimes missing while dragging a row | E | debug | journal-todo | med | triaged | 999.18 (drag) |
 | F-10 | Frame render options (grid, inner frames, notes) can't be found; add tests | F | feature | edgeless | med | built | pr/13: Show Grid/Frames/Notes in both Frame size menus; tests in `frame-sizing.spec.ts` |
-| F-11 | Copy several Journal Todo rows: paste into another journal, paste as Markdown todo list | G | 999.x | journal-todo | med | part built | pr/22: table rows done (3 formats + paste as new rows); List view / Journal Todo needs row multi-select first. See *F-11 design* below |
+| F-11 | Copy several Journal Todo rows: paste into another journal, paste as Markdown todo list | G | 999.x | journal-todo | med | built | pr/22: select rows (table, and now List view / Journal Todo: Escape, Shift+arrows, handle click), copy in 3 formats + rows, paste as new rows. Device check pending. See *F-11 design* below |
 | F-12 | PWA: restore page and scroll position after iOS reloads the app | G | 999.x | pwa | med | triaged | pr/41 |
 | F-13 | Database: how to add a paragraph after a database block | G | upstream fix | db-view | low | built | `working/fix/database-escape-to-block`: Escape ×3 from a cell selects the block, Enter adds a paragraph |
 | F-14 | pr/02–pr/07 don't type-check on their own | H | quick (stack) | stack | high | done | 4 files moved down from later branches; all 26 published branches type-check alone |
@@ -198,6 +198,13 @@ and Markdown importers drop the ticks. Paste into a table inserts after the
 last selected row; levels are relative to that row. Still to do: List view
 (Journal Todo) row multi-select, then the same copy and paste there via the
 shared `rows-clipboard.ts` helpers.
+
+*2026-11-15, later:* List view done too (second commit on pr/22): Escape in
+a row selects it, Shift+Up/Down extends, handle click / Shift+click /
+Ctrl+click, Enter edits, Escape again selects the block. Paste of copied
+rows works with rows selected or while typing in a row (after that row).
+Tested inside a reference too. Not done: Delete on selected rows, Tab to
+indent them, drag-selecting text across rows.
 
 ## Raw reports (triaged 2026-11-13)
 
