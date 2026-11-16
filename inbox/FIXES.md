@@ -106,12 +106,22 @@ upstream fix; if not, we fix it in pr/19.
 selection regression and the multi-row selection todo
 (`AFFiNE/.planning/todos/pending/2026-10-01-multi-row-text-selection-in-database-rows.md`).
 Needs a live session: reproduce, capture the selection state, then a test.
+*Probe ready (2026-11-15):* `tools/live/f07-delete-probe.js` logs every
+delete key / beforeinput with the native range, BlockSuite's selection and
+the block text before and after; report with `f07-delete-report.js`.
 
 **D. Performance (F-08).** Already backlog 999.18. Needs a live session with
 a large page and profiling.
+*Probe ready:* `tools/live/f08-perf-probe.js` (key-to-frame times by where
+the caret is, worst long animation frames with script attribution, page
+size); report with `f08-perf-report.js`.
 
 **E. Mobile drag indicator (F-09).** Intermittent, mobile only. Same code
 area as 999.18's slow row dragging.
+*Probe ready:* `tools/live/f09-drag-probe.js` samples every frame of a row
+drag (drop line and ghost present, pointer y); report with
+`f09-drag-report.js`. The line is removed whenever the controller finds no
+insert position under the pointer, which is the first suspect.
 
 **F. Frame render options (F-10).** pr/13 added show/hide grid, inner frames
 and notes, but they appear only in the edgeless Properties panel (select the
