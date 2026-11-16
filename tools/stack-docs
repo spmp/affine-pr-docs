@@ -36,7 +36,10 @@ def titles():
 
 
 def short(b):
-    return 'canary' if b == 'canary' else b.split('-')[0]
+    # pr/19-todo-... -> pr/19; fix branches have no number, so keep the name
+    if b == 'canary' or b.startswith('fix/'):
+        return b
+    return b.split('-')[0]
 
 
 def header(name, bases):
