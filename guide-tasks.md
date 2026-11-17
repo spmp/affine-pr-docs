@@ -45,6 +45,61 @@ Not-done label).
   like a to-do list (Enter splits a row, Backspace at the start merges it
   into the row above, drag handles reorder and re-indent).
 
+## Select rows
+
+**In a table:**
+
+- **Click the checkbox** at a row's left (hover to see it). Each click adds
+  or removes that row.
+- **From the keyboard:** while typing in a cell, **Escape** stops editing
+  (the cell is selected); **Escape** again selects the cell's row;
+  **Shift+↑/↓** adds rows above or below; **Escape** once more selects the
+  whole database, and **Enter** then adds a paragraph after it.
+- **A block of cells:** click a cell, then **Shift+click** another (or
+  drag, or **Shift+arrows**).
+
+**In a List view (the Journal Todo):**
+
+- While typing in a row, **Escape** selects the row (it turns light blue).
+- Or **click the grip** at the row's left (hover to see it).
+  **Shift+click** another grip selects the rows between; **Ctrl/Cmd+click**
+  adds or removes one row.
+- **Shift+↑/↓** extends the selection, **↑/↓** moves it, **Enter** goes
+  back to typing in the row, **Escape** selects the whole database.
+- Dragging the grey selection square over the list selects the whole
+  database block, not rows.
+
+## Copy and paste rows
+
+Select rows (above), **Ctrl/Cmd+C**, then:
+
+- **Into another table or Journal Todo:** click into a row (or select one)
+  and **Ctrl/Cmd+V**. The rows are added **as new tasks** after that row,
+  with their indent and done state. They are copies; the originals stay
+  where they were.
+- **Into a page:** click into a paragraph and paste.
+  - Rows from a **table** become a **new table** of just those rows, with
+    all their columns.
+  - Rows from the **Journal Todo** (List view) become a **to-do list**.
+- **Into another app:** rows from a table paste as a Markdown table (or a
+  real table in a spreadsheet or rich-text editor); rows from the Journal
+  Todo as `- [ ] task` lines, with the shown fields after each task,
+  separated by tabs.
+- **One column of cells** copies as a simple list, `- value` per line.
+
+The exact formats: [Plain-text formats](plain-text-formats/).
+
+## Keys in a table
+
+- **Enter** finishes editing a cell. To make Enter add a new row below
+  instead (in title, text and number cells), turn on **Settings → Editor →
+  General → Enter adds a new row in database tables**. **Shift+Enter** is a
+  new line inside a text cell either way.
+- **Tab / Shift+Tab** move to the next / previous cell.
+- **Cmd/Ctrl+Shift+.** / **Cmd/Ctrl+Shift+,** indent / outdent the row,
+  from any cell, in any table (a table made from scratch gets its task
+  hierarchy the first time a row is indented).
+
 ## Let parents follow their subtasks
 
 In the table or Kanban menu, **Parent status behavior** sets the rules for
