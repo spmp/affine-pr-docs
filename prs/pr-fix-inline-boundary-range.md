@@ -7,7 +7,7 @@ permalink: /pr-fix-inline-boundary-range/
 # fix/inline-boundary-range: Deleting a selection in a multi-line cell (Firefox)
 {: .no_toc }
 
-Branch `fix/inline-boundary-range` · base `canary` · 3 files, +204 −3 · 250 files against canary
+Branch `fix/inline-boundary-range` · base `canary` · 3 files, +212 −3 · 250 files against canary
 {: .fs-3 .text-grey-dk-000 }
 
 {% include pr-hero.html id="fix-inline-boundary-range" %}

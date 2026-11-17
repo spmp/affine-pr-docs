@@ -22,6 +22,8 @@ fork: spmp/AFFiNE
 
 stack:
   # Upstream bugs: each on canary, below every feature branch.
+  - { working: working/fix/inline-render-incremental, publish: fix/inline-render-incremental, base: canary }   # F-08 (1): every line re-renders on every edit (canary check: fails on canary)
+  - { working: working/fix/cell-value-rerender, publish: fix/cell-value-rerender, base: canary }   # F-08 (2): select cells re-render on every key (canary check: fails on canary)
   - { working: working/fix/inline-boundary-range, publish: fix/inline-boundary-range, base: canary }   # F-07: Firefox delete in multi-line cells (canary check: fails on canary)
   - { working: working/fix/editor-setting-fallback, publish: fix/editor-setting-fallback, base: canary, status: tentative }   # from pr/00 d92d4c28c6; canary check pending
   - { working: working/fix/store-parent-index, publish: pr/50-store-parent-index, base: canary, upstream: 15845 }

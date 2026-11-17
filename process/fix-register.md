@@ -16,6 +16,8 @@ listed here; they're in each PR page's **Changes**.
 
 | Fix | Symptom | Test | Canary check | Issue | PR | Status |
 | --- | --- | --- | --- | --- | --- | --- |
+| `inline-render-incremental` | Typing in a large multi-line text slows as it grows: every line re-renders on every key | `inline-render-incremental.spec.ts` | 2026-11-17: fails on canary the same way (900 line updates for 3 keys) | — | — | pending |
+| `cell-value-rerender` | Typing in one database cell re-renders every select cell in the table | `database-cell-rerender.spec.ts` | 2026-11-17: fails on canary the same way (30 updates for 5 keys) | — | — | pending |
 | `inline-boundary-range` | In Firefox, Backspace over a multi-line selection in a database rich-text cell deletes only the first line | `database-cell-delete-selection.spec.ts` | 2026-11-17: fails on canary the same way | — | — | pending |
 | `editor-setting-fallback` | Customised editor settings reset to defaults when a setting gains a new field | `parse-setting-with-fallback.spec.ts` | 2026-11-13: fails differently on canary (the tested function is new); the bug is in upstream's `watchAll()` by reading. A behaviour test through `watchAll()` would make it firm. | — | — | pending |
 | `keep-editor-focus` | A database cell being edited loses focus on a later selection update, so typing goes nowhere and a third click is needed | `database-cell-keeps-focus.spec.ts` | 2026-11-15: fails on canary the same way | — | — | pending |
