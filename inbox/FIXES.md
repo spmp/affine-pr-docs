@@ -122,6 +122,15 @@ without the host noticing), the key falls through to the inline editor's
 Clicking away and back re-activates it, which matches the workaround. Test
 live: log `std.event.active` of each `editor-host` on Enter.
 
+*2026-11-17, prod iPhone (probe `tools/live/f17-enter-probe.js`):* desktop
+never shows it; on the phone it did not recur in the session. Baseline: 9
+Enters (8 in Journal Todo rows, 1 in an h2), all handled on keydown
+(`defaultPrevented`), the caret's host active, no `beforeinput`
+insertParagraph. When it recurs: **don't tap away**; leave the caret where
+Enter failed and run the probe's state read, or (planned for the next
+build) a tripwire that writes the hosts' state to the mobile debug log when
+Enter takes the `insertParagraph` path in a list item or heading.
+
 **D. Performance (F-08).** Already backlog 999.18. Needs a live session with
 a large page and profiling. *2026-11-17:* Jasper has a production page with
 very large database cells where typing slows as a cell grows; that page is
