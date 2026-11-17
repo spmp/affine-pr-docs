@@ -66,6 +66,9 @@ can run in parallel.
 | F-14 | pr/02–pr/07 don't type-check on their own | H | quick (stack) | stack | high | done | 4 files moved down from later branches; all 26 published branches type-check alone |
 | F-15 | Other failing unit tests: database ancestor promotion, shape-browser ordering, typst timeout | H | fix | stack | med | built | shape-browser + typst in pr/10; cascade rule in pr/19 (child reverts, confirmed 2026-11-14) |
 | F-16 | affine-pr-docs much more complete (Todo columns, Todo→Database, indentation, Kanban promotion and menus, due dates) | I | docs | docs | med | built (draft) | new page `guide-tasks.md` (how-to with the real menu labels); pr-19 page already lists the features |
+| F-17 | Mobile (prod): Enter on a to-do item often inserts a newline instead of a new item; clicking away and back fixes it | C | interactive debug | selection | high | triaged | 2026-11-17 report; same symptom as F-18 |
+| F-18 | Mobile (prod): Enter in a heading inside a referenced note inserts a newline in the heading instead of a new paragraph; clicking away and back fixes it | C | interactive debug | note-ref | high | triaged | 2026-11-17 report; hypothesis below |
+| F-19 | Mobile (prod): a strange box appeared in a referenced note after typing `)` and Enter; hard or impossible to delete on mobile | C | interactive debug | note-ref | med | triaged | 2026-11-17 report; first find out what the block is |
 
 ### Groups
 
@@ -110,8 +113,21 @@ Needs a live session: reproduce, capture the selection state, then a test.
 delete key / beforeinput with the native range, BlockSuite's selection and
 the block text before and after; report with `f07-delete-report.js`.
 
+**F-17, F-18 (Enter gives a newline).** Hypothesis, from reading: Enter
+reaches the editor's keymap (which splits the item or paragraph) only while
+that editor host's event dispatcher is *active*. If it isn't (focus moved
+into a nested editor such as a referenced note, or the keyboard toolbar,
+without the host noticing), the key falls through to the inline editor's
+`beforeinput` (`insertParagraph`), which inserts a newline in the text.
+Clicking away and back re-activates it, which matches the workaround. Test
+live: log `std.event.active` of each `editor-host` on Enter.
+
 **D. Performance (F-08).** Already backlog 999.18. Needs a live session with
-a large page and profiling.
+a large page and profiling. *2026-11-17:* Jasper has a production page with
+very large database cells where typing slows as a cell grows; that page is
+the case to profile. Firefox has no long-frame API, so attribution needs
+Chrome, or timing wrappers on the suspect code (cell re-render, Yjs text
+observers, the inline editor's render) installed through the probe.
 *Probe ready:* `tools/live/f08-perf-probe.js` (key-to-frame times by where
 the caret is, worst long animation frames with script attribution, page
 size); report with `f08-perf-report.js`.
