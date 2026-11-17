@@ -36,7 +36,16 @@ def main():
     cfg = load_stack()
     stack = cfg['stack']
     upstream = f"upstream/{cfg.get('upstream_branch', 'canary')}"
-    canary = rev(upstream)
+    # Publish on the canary commit the working stack is built on, not on
+    # whatever was fetched since (a fetch moved upstream/canary and every
+    # branch above the first conflict failed, 2026-11-17). Catching up with
+    # canary is the weekly rebase; after it the merge-base moves with it.
+    top = stack[-1]['working']
+    canary = git('merge-base', upstream, top).strip()
+    if canary != rev(upstream):
+        behind = git('rev-list', '--count', f'{canary}..{upstream}').strip()
+        print(f'note: publishing on the stack\'s base {canary[:10]}; '
+              f'{upstream} is {behind} commits ahead (weekly rebase)\n')
     generated = {}          # publish name -> commit
     rows, problems = [], []
 

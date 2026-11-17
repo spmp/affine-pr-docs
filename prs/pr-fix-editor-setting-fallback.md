@@ -7,7 +7,7 @@ permalink: /pr-fix-editor-setting-fallback/
 # fix/editor-setting-fallback: Keep customised editor settings
 {: .no_toc }
 
-Branch `fix/editor-setting-fallback` · base `canary` · 2 files, +71 −8
+Branch `fix/editor-setting-fallback` · base `canary` · 2 files, +71 −8 · 249 files against canary
 {: .fs-3 .text-grey-dk-000 }
 
 {% include pr-hero.html id="fix-editor-setting-fallback" %}

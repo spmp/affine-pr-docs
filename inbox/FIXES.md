@@ -56,7 +56,7 @@ can run in parallel.
 | F-04 | Table view: Enter / Shift+Enter in a cell | B | upstream fix + feature | db-view | high | built | `fix/table-title-enter`: the title's Enter now finishes editing like the other text cells; pr/21: setting "Enter adds a new row in database tables" (off by default) |
 | F-05 | Table view: indent / outdent keys don't work | B | fix | db-view | med | built | pr/19 `fix(database): Mod-Shift-. / Mod-Shift-, indent…`; 2026-11-17 live: did nothing in plain tables (no hierarchy columns) and from Notes cells, fixed in pr/19 `fix(database): indent and outdent rows in every table…`; tests `database-table-indent-keys`, `list-indent-shortcut` |
 | F-06 | Table view: three clicks to edit a text cell | B | upstream fix | db-view | med | built | `working/fix/keep-editor-focus`: a late selection update took focus out of the cell being edited (traced live on a long page with references); test `database-cell-keeps-focus.spec.ts` |
-| F-07 | Deleting a selection that starts at the first character deletes the wrong text (paragraphs and cells) | C | interactive debug | selection | high | triaged | with the known multi-line selection regression |
+| F-07 | Deleting a selection that starts at the first character deletes the wrong text (paragraphs and cells) | C | upstream fix | selection | high | built | live 2026-11-17 (Firefox): multi-line Notes cell, only line 1 deleted; paragraphs fine. Upstream bug (element-boundary target range read as end of line 1): `fix/inline-boundary-range`. Jasper's second case (selection leaving the first paragraph) still to record |
 | F-08 | Slowdowns: large pages, typing in large database cells | D | interactive debug | perf | med | existing | backlog 999.18 |
 | F-09 | Mobile Journal Todo: drag indicator/lines sometimes missing while dragging a row | E | debug | journal-todo | med | triaged | 999.18 (drag) |
 | F-10 | Frame render options (grid, inner frames, notes) can't be found; add tests | F | feature | edgeless | med | built | pr/13: Show Grid/Frames/Notes in both Frame size menus; tests in `frame-sizing.spec.ts` |
@@ -177,6 +177,8 @@ next upstream publish.
   row…" fails (also on the old stack). `slash-menu-touch.spec.ts` can fail
   in a full run but passes on its own. Parallel full runs make focus tests
   interfere: use `--no-file-parallelism`.
+  2026-11-17 full run: `edgeless/mindmap.spec.ts` (3 tests) also failed in
+  the parallel run but passes on its own, with and without the change.
 
 - `blocksuite/framework/store/src/__tests__/parent-lookup.unit.spec.ts` "repeated
   lookups do not walk the whole document": spies on global Yjs methods, so it

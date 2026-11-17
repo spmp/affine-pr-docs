@@ -13,11 +13,12 @@ groups:
   - name: Server and PWA
     prs: ["40", "41", "42"]
   - name: Fixes for upstream bugs
-    prs: ["fix-editor-setting-fallback", "50", "51"]
+    prs: ["fix-inline-boundary-range", "fix-editor-setting-fallback", "50", "51"]
   - name: Using the fork
     prs: ["N"]
 
 prs:
+  "fix-inline-boundary-range": { label: "fix/inline-boundary-range", title: "Deleting a selection in a multi-line cell", tagline: "In Firefox, Backspace over several lines of a cell deleted only the first line.", size: "3 files", alone: true }
   "fix-editor-setting-fallback": { label: "fix/editor-setting-fallback", title: "Keep customised editor settings", tagline: "Customised editor settings survive a setting gaining a new field.", size: "2 files", alone: true }
   "02": { title: "Colour palettes", tagline: "Palette sets with gradient fills for shapes, pen and connectors, managed in Settings.", size: "+3.5k", alone: true, shot: "Shape toolbar with the palette selector open, showing 2-3 palettes" }
   "03": { title: "Dotted line style", tagline: "A dotted stroke for shapes, connectors and note borders.", size: "+195", shot: "Line-style panel with the Dot option, and a dotted connector between two shapes" }

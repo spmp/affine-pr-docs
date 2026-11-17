@@ -16,6 +16,7 @@ listed here; they're in each PR page's **Changes**.
 
 | Fix | Symptom | Test | Canary check | Issue | PR | Status |
 | --- | --- | --- | --- | --- | --- | --- |
+| `inline-boundary-range` | In Firefox, Backspace over a multi-line selection in a database rich-text cell deletes only the first line | `database-cell-delete-selection.spec.ts` | 2026-11-17: fails on canary the same way | — | — | pending |
 | `editor-setting-fallback` | Customised editor settings reset to defaults when a setting gains a new field | `parse-setting-with-fallback.spec.ts` | 2026-11-13: fails differently on canary (the tested function is new); the bug is in upstream's `watchAll()` by reading. A behaviour test through `watchAll()` would make it firm. | — | — | pending |
 | `keep-editor-focus` | A database cell being edited loses focus on a later selection update, so typing goes nowhere and a third click is needed | `database-cell-keeps-focus.spec.ts` | 2026-11-15: fails on canary the same way | — | — | pending |
 | `inline-container-selection` | Deleting table rows jumps the page to the table's first row: a selection left on a wrapper of the table made every title editor claim the caret | `inline-container-selection.spec.ts` | 2026-11-14: fails on canary the same way | — | — | pending |
