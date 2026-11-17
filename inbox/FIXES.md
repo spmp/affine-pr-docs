@@ -128,6 +128,25 @@ very large database cells where typing slows as a cell grows; that page is
 the case to profile. Firefox has no long-frame API, so attribution needs
 Chrome, or timing wrappers on the suspect code (cell re-render, Yjs text
 observers, the inline editor's render) installed through the probe.
+
+*Live session 2026-11-17 (prod, Firefox, "Pain body worksheets": 46 rows,
+one cell of 227k chars / 1,001 lines, 23.7k DOM nodes).* Key press to next
+frame: big cell ~450 ms (first frame 200-270 ms on every other key), short
+cells 60-90 ms. No single long task: it is many updates per key.
+
+1. **The inline editor re-renders the whole text on every key** (upstream
+   `RenderService.render`): every line gets a new `elements` array and new
+   absolute offsets, so ~2,000 `v-line`/`v-element` updates per key in the
+   big cell. Cost grows with the cell's size.
+2. **Every key in any cell re-renders all the table's select cells**: 92
+   `affine-database-multi-select-cell` updates per key (46 rows x 2); a
+   cell seems to get a new value whenever any cell changes.
+
+Plan agreed with Jasper (2026-11-17): **fix (2) first, then (1)**, each with
+a failing test that counts updates per key, the canary check, then a
+before/after measurement on the same page. To start after the interactive
+tests (F-19, F-17/F-18, F-09) are done. Probes: `tools/live/f08-*`; the
+lite timing in this note's figures (the heavy profilers inflate times).
 *Probe ready:* `tools/live/f08-perf-probe.js` (key-to-frame times by where
 the caret is, worst long animation frames with script attribution, page
 size); report with `f08-perf-report.js`.
