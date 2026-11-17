@@ -68,7 +68,7 @@ can run in parallel.
 | F-16 | affine-pr-docs much more complete (Todo columns, Todo→Database, indentation, Kanban promotion and menus, due dates) | I | docs | docs | med | built (draft) | new page `guide-tasks.md` (how-to with the real menu labels); pr-19 page already lists the features |
 | F-17 | Mobile (prod): Enter on a to-do item often inserts a newline instead of a new item; clicking away and back fixes it | C | interactive debug | selection | high | triaged | 2026-11-17 report; same symptom as F-18 |
 | F-18 | Mobile (prod): Enter in a heading inside a referenced note inserts a newline in the heading instead of a new paragraph; clicking away and back fixes it | C | interactive debug | note-ref | high | triaged | 2026-11-17 report; hypothesis below |
-| F-19 | Mobile (prod): a strange box appeared in a referenced note after typing `)` and Enter; hard or impossible to delete on mobile | C | interactive debug | note-ref | med | triaged | 2026-11-17 report; first find out what the block is |
+| F-19 | Mobile (prod): a strange box appeared in a referenced note after typing `)` and Enter; hard or impossible to delete on mobile | C | interactive debug | note-ref | med | triaged | 2026-11-17 live (prod, journal Nov 17): a `note-ref` inside a list item points at a hidden EdgelessOnly note holding an **orphaned empty "Journal Todo" database** (0 rows, **no views**, nothing references it; today's Journal Todo is a view-ref to another page's table). Two bugs: the orphan is left behind (journal-todo setup / source selection, pr/19), and the note-ref picker offers it (it only excludes hidden notes that a `database-ref` points at). Trigger (`)` + Enter on mobile) still unknown |
 
 ### Groups
 
