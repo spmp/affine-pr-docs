@@ -26,10 +26,10 @@ plain text below is what **other** apps get.
 
 | Copied | `text/plain` | `text/html` | Lost in plain text |
 | --- | --- | --- | --- |
-| Table rows | GFM Markdown table of the view's shown columns, header row from the column names; done column `[x]` / `[ ]`; `\|` escaped; line breaks in a cell as `<br>` | `<table>` with `<thead>`, line breaks as `<br>` | indent levels (a table cell can't hold leading spaces); hidden columns; cell types (a date is its display text) |
+| Table rows | GFM Markdown table of the view's shown columns, padded so the columns line up, header row from the column names; done column `[x]` / `[ ]`; `\|` escaped; line breaks in a cell as `<br>` | `<table>` with `<thead>`, line breaks as `<br>` | indent levels (a table cell can't hold leading spaces); hidden columns; cell types (a date is its display text) |
 | List view rows (Journal Todo) | GFM task list: `- [ ] title`, `- [x] title`, two spaces per indent level; the List view's shown fields follow the title, each after a **tab**; trailing empty fields dropped; tabs and line breaks inside a field become a space | nested `<ul>` with a disabled checkbox per item, fields after the title separated by tabs | field names (positional only); line breaks in fields |
 | One column of cells (table) | `- value` per line, empty cells left out, line breaks as a space | (none) | which column it was; empty cells |
-| Several columns of cells | tab-separated rows (upstream behaviour) | (none) | column names |
+| Several columns of cells | GFM Markdown table of those columns, padded (as table rows) | `<table>` of those columns | as table rows |
 
 ## How upstream already exports these (for comparison)
 
