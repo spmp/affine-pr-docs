@@ -75,7 +75,7 @@ Not-done label).
   blue and a bar appears at the bottom.
 - **Tap** other rows to add or remove them.
 - **Tap Copy** in the bar (a database when pasted into a page), or **hold
-  Copy** to copy as text (plain to-do items or a standard table), then
+  Copy** until it reads *Copy as text* and let go, to copy as text (plain to-do items or a standard table), then
   **Done**.
 - To paste rows: long-press inside a row's text (or a page paragraph) and
   choose **Paste**.
