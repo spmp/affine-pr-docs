@@ -69,6 +69,15 @@ Not-done label).
 - Dragging the grey selection square over the list selects the whole
   database block, not rows.
 
+**On a phone (Journal Todo and tables):**
+
+- **Long-press a row** (hold still about half a second): it turns light
+  blue and a bar appears at the bottom.
+- **Tap** other rows to add or remove them.
+- **Copy** in the bar, then **Done**.
+- To paste rows: long-press inside a row's text (or a page paragraph) and
+  choose **Paste**.
+
 ## Copy and paste rows
 
 Select rows (above), **Ctrl/Cmd+C**, then:
