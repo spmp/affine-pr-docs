@@ -53,7 +53,7 @@ plain text below is what **other** apps get.
   the Markdown import (tested): a Markdown table becomes a standard
   `affine:table` (not a database), a task list a to-do list (the tab
   fields stay in the item text). Should importing a task list with
-  tab-separated fields rebuild the fields? Mobile has **Copy as text** for
-  exactly this path.
+  tab-separated fields rebuild the fields? On mobile, holding **Copy** (copy
+  as text) uses exactly this path.
 - **References, notes, journal links** on rows (pr/19) have no plain-text
   form yet.
