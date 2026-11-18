@@ -74,7 +74,8 @@ Not-done label).
 - **Long-press a row** (hold still about half a second): it turns light
   blue and a bar appears at the bottom.
 - **Tap** other rows to add or remove them.
-- **Copy** in the bar, then **Done**.
+- **Copy** in the bar (a database when pasted into a page), or **Copy as
+  text** (plain to-do items or a standard table), then **Done**.
 - To paste rows: long-press inside a row's text (or a page paragraph) and
   choose **Paste**.
 
@@ -89,7 +90,10 @@ Select rows (above), **Ctrl/Cmd+C**, then:
 - **Into a page:** click into a paragraph and paste.
   - Rows from a **table** become a **new table** of just those rows, with
     all their columns.
-  - Rows from the **Journal Todo** (List view) become a **to-do list**.
+  - Rows from the **Journal Todo** (List view) become a **new database in
+    List view** with just those rows, like a small Journal Todo.
+  - For plain items instead, use **Copy as text** (phone) and paste: a
+    to-do list from the Journal Todo, a standard table from a table.
 - **Into another app:** rows from a table paste as a Markdown table (or a
   real table in a spreadsheet or rich-text editor); rows from the Journal
   Todo as `- [ ] task` lines, with the shown fields after each task,

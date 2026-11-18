@@ -50,8 +50,10 @@ plain text below is what **other** apps get.
   split, but have no names. Alternatives: `key:: value` (Logseq/Dataview
   style), `(due 2026-11-20)`, or a trailing table.
 - **Round trip:** pasting our own plain text back into AFFiNE goes through
-  the Markdown import: a pasted Markdown table becomes a table, a task list
-  a to-do list. Should importing a task list with tab-separated fields
-  rebuild the fields?
+  the Markdown import (tested): a Markdown table becomes a standard
+  `affine:table` (not a database), a task list a to-do list (the tab
+  fields stay in the item text). Should importing a task list with
+  tab-separated fields rebuild the fields? Mobile has **Copy as text** for
+  exactly this path.
 - **References, notes, journal links** on rows (pr/19) have no plain-text
   form yet.
